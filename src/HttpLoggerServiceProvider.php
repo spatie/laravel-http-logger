@@ -19,6 +19,6 @@ class HttpLoggerServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'http-logger');
+        $this->mergeConfigFrom(__DIR__.'/../config/http-logger.php', 'http-logger');
     }
 }
