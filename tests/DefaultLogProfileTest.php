@@ -14,7 +14,7 @@ class DefaultLogProfileTest extends TestCase
         ]);
 
         $logger = $this->makeLogger();
-        $logger->handleRequest($request);
+        $logger->logRequest($request);
 
         $log = $this->readLogFile();
 
@@ -31,7 +31,7 @@ class DefaultLogProfileTest extends TestCase
             'password_confirmation' => 'none',
         ]);
 
-        $logger->handleRequest($request);
+        $logger->logRequest($request);
 
         $log = $this->readLogFile();
 
@@ -46,9 +46,7 @@ class DefaultLogProfileTest extends TestCase
         $logger = $this->makeLogger();
         $request = $this->makeGetRequest();
 
-        $logger->handleRequest($request);
-
-        $this->assertFileNotExists($this->getLogFile());
+        $this->assertFalse($logger->shouldLogRequest($request));
     }
 
     private function makeLogger(): DefaultLogProfile

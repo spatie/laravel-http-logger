@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 interface LogProfile
 {
-    public function handleRequest(Request $request): void;
+    public function shouldLogRequest(Request $request): bool;
+
+    public function logRequest(Request $request): void;
 }

@@ -7,21 +7,15 @@ use Illuminate\Support\Facades\Log;
 
 class DefaultLogProfile implements LogProfile
 {
-    public function handleRequest(Request $request): void
+    public function shouldLogRequest(Request $request): bool
     {
-        if (
-            ! $request->isMethod('post')
-            && ! $request->isMethod('put')
-            && ! $request->isMethod('patch')
-            && ! $request->isMethod('delete')
-        ) {
-            return;
-        }
-
-        Log::info($this->createMessage($request));
+        return $request->isMethod('post')
+            || $request->isMethod('put')
+            || $request->isMethod('patch')
+            || $request->isMethod('delete');
     }
 
-    protected function createMessage(Request $request): string
+    public function logRequest(Request $request): void
     {
         $method = strtoupper($request->getMethod());
         $uri = $request->getPathInfo();
@@ -29,6 +23,6 @@ class DefaultLogProfile implements LogProfile
 
         $message = "{$method} {$uri} - {$bodyAsJson}";
 
-        return $message;
+        Log::info($message);
     }
 }
