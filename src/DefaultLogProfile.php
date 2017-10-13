@@ -5,7 +5,7 @@ namespace Spatie\HttpLogger;
 use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
 
-class DefaultLogger implements LogProfile
+class DefaultLogProfile implements LogProfile
 {
     private $logger = null;
     private $except = [];
@@ -20,8 +20,8 @@ class DefaultLogger implements LogProfile
     {
         if (
             ! $request->isMethod('post')
-            && ! $request->isMethod('patch')
             && ! $request->isMethod('put')
+            && ! $request->isMethod('patch')
             && ! $request->isMethod('delete')
         ) {
             return;

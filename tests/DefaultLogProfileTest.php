@@ -3,9 +3,9 @@
 namespace Spatie\HttpLogger\Test;
 
 use Psr\Log\LoggerInterface;
-use Spatie\HttpLogger\DefaultLogger;
+use Spatie\HttpLogger\DefaultLogProfile;
 
-class DefaultLoggerTest extends TestCase
+class DefaultLogProfileTest extends TestCase
 {
     /** @test */
     public function it_handles_a_post_request()
@@ -52,8 +52,8 @@ class DefaultLoggerTest extends TestCase
         $this->assertFileNotExists($this->getLogFile());
     }
 
-    private function makeLogger(): DefaultLogger
+    private function makeLogger(): DefaultLogProfile
     {
-        return $logger = new DefaultLogger($this->app->get(LoggerInterface::class));
+        return $logger = new DefaultLogProfile($this->app->get(LoggerInterface::class));
     }
 }
