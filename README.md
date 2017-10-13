@@ -100,6 +100,7 @@ public function logRequest(Request $request): void
 
     Log::info($message);
 }
+```
 
 ### Testing
 
