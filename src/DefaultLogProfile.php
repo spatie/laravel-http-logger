@@ -3,19 +3,10 @@
 namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
-use Psr\Log\LoggerInterface;
+use Illuminate\Support\Facades\Log;
 
 class DefaultLogProfile implements LogProfile
 {
-    private $logger = null;
-    private $except = [];
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        $this->except = config('http-logger.except');
-    }
-
     public function handleRequest(Request $request): void
     {
         if (
@@ -27,14 +18,14 @@ class DefaultLogProfile implements LogProfile
             return;
         }
 
-        $this->logger->info($this->createMessage($request));
+        Log::info($this->createMessage($request));
     }
 
     protected function createMessage(Request $request): string
     {
         $method = strtoupper($request->getMethod());
         $uri = $request->getPathInfo();
-        $bodyAsJson = json_encode($request->except($this->except));
+        $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
         $message = "{$method} {$uri} - {$bodyAsJson}";
 

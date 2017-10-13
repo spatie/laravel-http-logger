@@ -2,7 +2,6 @@
 
 namespace Spatie\HttpLogger\Test;
 
-use Psr\Log\LoggerInterface;
 use Spatie\HttpLogger\DefaultLogProfile;
 
 class DefaultLogProfileTest extends TestCase
@@ -54,6 +53,6 @@ class DefaultLogProfileTest extends TestCase
 
     private function makeLogger(): DefaultLogProfile
     {
-        return $logger = new DefaultLogProfile($this->app->get(LoggerInterface::class));
+        return $logger = new DefaultLogProfile();
     }
 }
