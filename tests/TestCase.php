@@ -29,6 +29,22 @@ class TestCase extends Orchestra
         $this->setUpLog();
     }
 
+    protected function tearDown(): void
+    {
+        if (File::isDirectory($this->getTempDirectory())) {
+            File::deleteDirectory($this->getTempDirectory());
+        }
+    }
+
+    protected function initializeDirectory($directory): void
+    {
+        if (File::isDirectory($directory)) {
+            File::deleteDirectory($directory);
+        }
+
+        File::makeDirectory($directory);
+    }
+
     protected function getTempDirectory($suffix = ''): string
     {
         return __DIR__ . '/temp' . ($suffix == '' ? '' : $this->uri . $suffix);
@@ -42,15 +58,6 @@ class TestCase extends Orchestra
     protected function readLogFile(): string
     {
         return File::get($this->getLogFile());
-    }
-
-    protected function initializeDirectory($directory): void
-    {
-        if (File::isDirectory($directory)) {
-            File::deleteDirectory($directory);
-        }
-
-        File::makeDirectory($directory);
     }
 
     protected function getPackageProviders($app): array
