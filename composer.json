@@ -1,0 +1,50 @@
+{
+    "name": "spatie/laravel-http-logger",
+    "description": "A Laravel 5 package to log HTTP requests",
+    "keywords": [
+        "spatie",
+        "laravel-http-logger"
+    ],
+    "homepage": "https://github.com/spatie/laravel-http-logger",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brent Roose",
+            "email": "brent@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\Skeleton\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\Skeleton\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\Skeleton\\SkeletonServiceProvider"
+            ],
+            "aliases": {
+                "Skeleton": "Spatie\\Skeleton\\SkeletonFacade"
+            }
+        }
+    }
+}
