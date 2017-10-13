@@ -19,11 +19,81 @@ You can install the package via composer:
 composer require spatie/laravel-http-logger
 ```
 
+You can publish the config-file with:
+
+```bash
+php artisan vendor:publish --provider="Spatie\HttpLogger\HttpLoggerServiceProvider" --tag="config" 
+```
+
+This is the contents of the published config file:
+
+```php
+return [
+    /**
+     * The log profile used to log requests. A log profile implements the `LogProfile` class,
+     * determines whether a request will be logged or not, and how the message is formatted.
+     */
+    'log_profile' => \Spatie\HttpLogger\DefaultLogger::class,
+
+    /**
+     * Filter out body fields which will never be logged.
+     */
+    'except' => [
+        'password',
+        'password_confirmation',
+    ],
+];
+```
+
 ## Usage
 
-``` php
-$skeleton = new Spatie\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+This packages provides a middleware which can be added as a global middleware or to a single route.
+
+```php
+// As a middleware to a single route.
+
+Route::get('/my-form', function () {
+    //
+})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
+```
+
+```php
+// As a global middleware in `\App\Http\Kernel`.
+
+protected $middleware = [
+    // ...
+    
+    \Spatie\HttpLogger\Middlewares\HttpLogger::class
+];
+```
+
+### Logging
+
+A default log profile is added within this package. 
+It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests.
+It will write to the default Laravel logger.
+
+You're free to implement your own log profile, and configure it in `config/http-logger.php`.
+
+A custom log profile must implement the `\Spatie\HttpLogger\LogProfile` interface. 
+This interface requires you to implement the `handleRequest` method.
+
+```php
+// Example implementation from `\Spatie\HttpLogger\DefaultLogProfile`
+
+public function handleRequest(Request $request): void
+{
+    if (
+        ! $request->isMethod('post')
+        && ! $request->isMethod('put')
+        && ! $request->isMethod('patch')
+        && ! $request->isMethod('delete')
+    ) {
+        return;
+    }
+
+    $this->logger->info($this->createMessage($request));
+}
 ```
 
 ### Testing
