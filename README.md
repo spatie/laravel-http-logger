@@ -29,6 +29,7 @@ This is the contents of the published config file:
 
 ```php
 return [
+
     /**
      * The log profile used to log requests. A log profile implements the `LogProfile` class,
      * determines whether a request will be logged or not, and how the message is formatted.
