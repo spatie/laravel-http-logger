@@ -59,7 +59,7 @@ Route::get('/my-form', function () {
 ```
 
 ```php
-// As a global middleware in `\App\Http\Kernel`.
+// As a global middleware in `App\Http\Kernel`.
 
 protected $middleware = [
     // ...
