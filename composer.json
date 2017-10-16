@@ -16,11 +16,12 @@
         }
     ],
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "illuminate/support": "5.5.*"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.5",
-        "phpunit/phpunit": "^6.0"
+        "orchestra/testbench": "3.5.*",
+        "phpunit/phpunit": "^6.4"
     },
     "autoload": {
         "psr-4": {
