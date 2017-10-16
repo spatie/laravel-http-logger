@@ -118,14 +118,4 @@ class TestCase extends Orchestra
             )
         );
     }
-
-    protected function makeGetRequest(string $uri = null): Request
-    {
-        return $this->makeRequest('get', $uri ?? $this->uri);
-    }
-
-    protected function makePostRequest(array $parameters, string $uri = null): Request
-    {
-        return $this->makeRequest('post', $uri ?? $this->uri, $parameters);
-    }
 }
