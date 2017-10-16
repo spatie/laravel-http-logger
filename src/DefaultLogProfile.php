@@ -15,7 +15,7 @@ class DefaultLogProfile implements LogProfile
             || $request->isMethod('delete');
     }
 
-    public function logRequest(Request $request): void
+    public function logRequest(Request $request)
     {
         $method = strtoupper($request->getMethod());
         $uri = $request->getPathInfo();
