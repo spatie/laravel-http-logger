@@ -2,14 +2,14 @@
 
 namespace Spatie\HttpLogger\Test;
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\Facades\Route;
+use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\HttpLogger\HttpLoggerServiceProvider;
-use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class TestCase extends Orchestra
@@ -40,12 +40,12 @@ class TestCase extends Orchestra
 
     protected function getTempDirectory($suffix = ''): string
     {
-        return __DIR__ . '/temp' . ($suffix == '' ? '' : $this->uri . $suffix);
+        return __DIR__.'/temp'.($suffix == '' ? '' : $this->uri.$suffix);
     }
 
     protected function getTempFile(): string
     {
-        $path = $this->getTempDirectory() . '/test.md';
+        $path = $this->getTempDirectory().'/test.md';
 
         file_put_contents($path, 'Hello');
 
@@ -54,7 +54,7 @@ class TestCase extends Orchestra
 
     protected function getLogFile(): string
     {
-        return $this->getTempDirectory() . '/http-logger.log';
+        return $this->getTempDirectory().'/http-logger.log';
     }
 
     protected function readLogFile(): string
@@ -65,13 +65,13 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            HttpLoggerServiceProvider::class
+            HttpLoggerServiceProvider::class,
         ];
     }
 
     protected function setUpRoutes()
     {
-        foreach(['get', 'post', 'put', 'patch', 'delete'] as $method) {
+        foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
             Route::$method($this->uri, function () use ($method) {
                 return $method;
             });
