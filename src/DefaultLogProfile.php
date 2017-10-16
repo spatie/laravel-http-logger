@@ -18,8 +18,11 @@ class DefaultLogProfile implements LogProfile
     public function logRequest(Request $request)
     {
         $method = strtoupper($request->getMethod());
+
         $uri = $request->getPathInfo();
+
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
+
         $files = [];
 
         foreach ($request->files as $file) {
