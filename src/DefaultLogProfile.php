@@ -10,10 +10,7 @@ class DefaultLogProfile implements LogProfile
 {
     public function shouldLogRequest(Request $request): bool
     {
-        return $request->isMethod('post')
-            || $request->isMethod('put')
-            || $request->isMethod('patch')
-            || $request->isMethod('delete');
+        return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
     }
 
     public function logRequest(Request $request)
