@@ -16,7 +16,7 @@ class TestCase extends Orchestra
 {
     protected $uri = '/test-uri';
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -29,7 +29,7 @@ class TestCase extends Orchestra
         $this->setUpLog();
     }
 
-    protected function initializeDirectory($directory): void
+    protected function initializeDirectory($directory)
     {
         if (File::isDirectory($directory)) {
             File::deleteDirectory($directory);
@@ -69,7 +69,7 @@ class TestCase extends Orchestra
         ];
     }
 
-    protected function setUpRoutes(): void
+    protected function setUpRoutes()
     {
         foreach(['get', 'post', 'put', 'patch', 'delete'] as $method) {
             Route::$method($this->uri, function () use ($method) {
@@ -78,12 +78,12 @@ class TestCase extends Orchestra
         }
     }
 
-    protected function setUpGlobalMiddleware(): void
+    protected function setUpGlobalMiddleware()
     {
         $this->app[Kernel::class]->pushMiddleware(HttpLogger::class);
     }
 
-    protected function setUpLog(): void
+    protected function setUpLog()
     {
         $this->app->configureMonologUsing(function ($monolog) {
             $monolog->pushHandler(new StreamHandler($this->getLogFile()));

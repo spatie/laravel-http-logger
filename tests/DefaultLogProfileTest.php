@@ -7,6 +7,13 @@ use Spatie\HttpLogger\DefaultLogProfile;
 
 class DefaultLogProfileTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setup();
+
+
+    }
+
     /** @test */
     public function it_logs_post_requests()
     {
