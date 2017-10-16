@@ -48,7 +48,7 @@ return [
 
 ## Usage
 
-This packages provides a middleware which can be added as a global middleware or to a single route.
+This packages provides a middleware which can be added as a global middleware or as a single route.
 
 ```php
 // As a middleware to a single route.
