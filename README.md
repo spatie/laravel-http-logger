@@ -76,24 +76,23 @@ It will write to the default Laravel logger.
 
 You're free to implement your own log profile, and configure it in `config/http-logger.php`.
 
-A custom log profile must implement the `\Spatie\HttpLogger\LogProfile` interface. 
-This interface requires you to implement the `handleRequest` and `logRequest` methods.
+A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
+This interface requires you to implement `handleRequest` and `logRequest`.
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\DefaultLogProfile`
 
 public function shouldLogRequest(Request $request): bool
 {
-    return $request->isMethod('post')
-        || $request->isMethod('put')
-        || $request->isMethod('patch')
-        || $request->isMethod('delete');
+   return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
 }
 
 public function logRequest(Request $request): void
 {
     $method = strtoupper($request->getMethod());
+    
     $uri = $request->getPathInfo();
+    
     $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
     $message = "{$method} {$uri} - {$bodyAsJson}";
