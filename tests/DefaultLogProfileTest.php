@@ -130,8 +130,8 @@ class DefaultLogProfileTest extends TestCase
 
         $log = $this->readLogFile();
 
-        $this->assertNotContains('"password"', $log);
-        $this->assertNotContains('"password_confirmation"', $log);
+        $this->assertNotContains('password', $log);
+        $this->assertNotContains('password_confirmation', $log);
     }
 
     /** @test */
