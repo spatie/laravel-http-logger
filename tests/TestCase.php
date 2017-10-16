@@ -65,7 +65,7 @@ class TestCase extends Orchestra
 
     protected function readLogFile(): string
     {
-        return File::get($this->getLogFile());
+        return file_get_contents($this->getLogFile());
     }
 
     protected function getPackageProviders($app): array

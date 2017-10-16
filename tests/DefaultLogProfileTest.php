@@ -15,6 +15,7 @@ class DefaultLogProfileTest extends TestCase
         ]);
 
         $logger = $this->makeLogger();
+
         $logger->logRequest($request);
 
         $log = $this->readLogFile();
