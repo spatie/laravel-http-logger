@@ -51,21 +51,21 @@ return [
 This packages provides a middleware which can be added as a global middleware or as a single route.
 
 ```php
-// As a middleware to a single route.
-
-Route::get('/my-form', function () {
-    //
-})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
-```
-
-```php
-// As a global middleware in `App\Http\Kernel`.
+// in `app/Http/Kernel.php`
 
 protected $middleware = [
     // ...
     
     \Spatie\HttpLogger\Middlewares\HttpLogger::class
 ];
+```
+
+```php
+// in a routes file
+
+Route::get('/my-form', function () {
+    //
+})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
 ```
 
 ### Logging
