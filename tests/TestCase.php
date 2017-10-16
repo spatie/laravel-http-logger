@@ -50,6 +50,14 @@ class TestCase extends Orchestra
         return __DIR__ . '/temp' . ($suffix == '' ? '' : $this->uri . $suffix);
     }
 
+    protected function getTempFile(): string
+    {
+        $path = $this->getTempDirectory() . '/test.md';
+
+        File::put($path, 'Hello');
+        return $path;
+    }
+
     protected function getLogFile(): string
     {
         return $this->getTempDirectory() . '/http-logger.log';

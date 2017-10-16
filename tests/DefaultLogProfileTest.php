@@ -2,29 +2,11 @@
 
 namespace Spatie\HttpLogger\Test;
 
+use Illuminate\Http\UploadedFile;
 use Spatie\HttpLogger\DefaultLogProfile;
 
 class DefaultLogProfileTest extends TestCase
 {
-    /** @test */
-    public function it_filters_except_fields_from_the_body()
-    {
-        $logger = $this->makeLogger();
-        $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name',
-            'password' => 'none',
-            'password_confirmation' => 'none',
-        ]);
-
-        $logger->logRequest($request);
-
-        $log = $this->readLogFile();
-
-        $this->assertContains('"name":"Name"', $log);
-        $this->assertNotContains('"password"', $log);
-        $this->assertNotContains('"password_confirmation"', $log);
-    }
-
     /** @test */
     public function it_logs_post_requests()
     {
@@ -117,6 +99,55 @@ class DefaultLogProfileTest extends TestCase
         $request = $this->makeRequest('trace', $this->uri);
 
         $this->assertFalse($logger->shouldLogRequest($request));
+    }
+
+    /** @test */
+    public function the_body_is_logged()
+    {
+        $logger = $this->makeLogger();
+        $request = $this->makeRequest('post', $this->uri, [
+            'name' => 'Name',
+        ]);
+
+        $logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertContains('"name":"Name', $log);
+    }
+
+    /** @test */
+    public function excluded_fields_are_not_logged()
+    {
+        $logger = $this->makeLogger();
+        $request = $this->makeRequest('post', $this->uri, [
+            'name' => 'Name',
+            'password' => 'none',
+            'password_confirmation' => 'none',
+        ]);
+
+        $logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertNotContains('"password"', $log);
+        $this->assertNotContains('"password_confirmation"', $log);
+    }
+
+    /** @test */
+    public function files_are_logged()
+    {
+        $logger = $this->makeLogger();
+        $file = $this->getTempFile();
+        $request = $this->makeRequest('post', $this->uri, [], [], [
+            'file' => new UploadedFile($file, 'test.md'),
+        ]);
+
+        $logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertContains('test.md', $log);
     }
 
     private function makeLogger(): DefaultLogProfile
