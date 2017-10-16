@@ -4,6 +4,7 @@ namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultLogProfile implements LogProfile
 {
@@ -23,11 +24,9 @@ class DefaultLogProfile implements LogProfile
 
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
-        $files = [];
-
-        foreach ($request->files as $file) {
-            $files[] .= $file->path();
-        };
+        $files = array_map(function(UploadedFile $file) {
+            return $file->path();
+        }, iterator_to_array($request->files));
 
         $message = "{$method} {$uri} - Body: {$bodyAsJson} - Files: " . implode(', ', $files);
 
