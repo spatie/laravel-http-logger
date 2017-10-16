@@ -70,7 +70,9 @@ class TestCase extends Orchestra
 
     protected function getPackageProviders($app): array
     {
-        return [HttpLoggerServiceProvider::class];
+        return [
+            HttpLoggerServiceProvider::class
+        ];
     }
 
     protected function setUpRoutes(): void
