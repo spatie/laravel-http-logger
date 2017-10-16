@@ -29,13 +29,6 @@ class TestCase extends Orchestra
         $this->setUpLog();
     }
 
-    protected function tearDown(): void
-    {
-        if (File::isDirectory($this->getTempDirectory())) {
-            File::deleteDirectory($this->getTempDirectory());
-        }
-    }
-
     protected function initializeDirectory($directory): void
     {
         if (File::isDirectory($directory)) {
@@ -54,7 +47,8 @@ class TestCase extends Orchestra
     {
         $path = $this->getTempDirectory() . '/test.md';
 
-        File::put($path, 'Hello');
+        file_put_contents($path, 'Hello');
+
         return $path;
     }
 
@@ -77,25 +71,11 @@ class TestCase extends Orchestra
 
     protected function setUpRoutes(): void
     {
-        Route::get($this->uri, function () {
-            return 'get';
-        });
-
-        Route::post($this->uri, function () {
-            return 'post';
-        });
-
-        Route::put($this->uri, function () {
-            return 'put';
-        });
-
-        Route::patch($this->uri, function () {
-            return 'patch';
-        });
-
-        Route::delete($this->uri, function () {
-            return 'delete';
-        });
+        foreach(['get', 'post', 'put', 'patch', 'delete'] as $method) {
+            Route::$method($this->uri, function () use ($method) {
+                return $method;
+            });
+        }
     }
 
     protected function setUpGlobalMiddleware(): void
