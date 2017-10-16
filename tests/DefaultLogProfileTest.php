@@ -21,7 +21,7 @@ class DefaultLogProfileTest extends TestCase
     public function it_logs_post_requests()
     {
         $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name'
+            'name' => 'Name',
         ]);
 
         $this->logger->logRequest($request);
@@ -35,7 +35,7 @@ class DefaultLogProfileTest extends TestCase
     public function it_logs_patch_requests()
     {
         $request = $this->makeRequest('patch', $this->uri, [
-            'name' => 'Name'
+            'name' => 'Name',
         ]);
 
         $this->logger->logRequest($request);
@@ -49,7 +49,7 @@ class DefaultLogProfileTest extends TestCase
     public function it_logs_put_requests()
     {
         $request = $this->makeRequest('put', $this->uri, [
-            'name' => 'Name'
+            'name' => 'Name',
         ]);
 
         $this->logger->logRequest($request);
