@@ -3,18 +3,18 @@
 namespace Spatie\HttpLogger\Test;
 
 use Illuminate\Http\UploadedFile;
-use Spatie\HttpLogger\DefaultLogOutput;
+use Spatie\HttpLogger\DefaultLogWriter;
 
-class DefaultLogOutputTest extends TestCase
+class DefaultLogWriterTest extends TestCase
 {
-    /** @var \Spatie\HttpLogger\DefaultLogOutput */
+    /** @var \Spatie\HttpLogger\DefaultLogWriter */
     protected $logger;
 
     public function setUp()
     {
         parent::setup();
 
-        $this->logger = new DefaultLogOutput();
+        $this->logger = new DefaultLogWriter();
     }
 
     /** @test */

@@ -4,7 +4,7 @@ namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
 
-interface LogOutput
+interface LogWriter
 {
     public function logRequest(Request $request);
 }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class DefaultLogOutput implements LogOutput
+class DefaultLogWriter implements LogWriter
 {
     public function logRequest(Request $request)
     {

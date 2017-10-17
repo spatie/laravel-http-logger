@@ -9,10 +9,10 @@ return [
     'log_profile' => \Spatie\HttpLogger\DefaultLogProfile::class,
 
     /**
-     * The log profile used to log the actual request.
-     * It should implement `LogOutput`.
+     * The log writer used to write the request to a log.
+     * It should implement `LogWriter`.
      */
-    'log_output' => \Spatie\HttpLogger\DefaultLogOutput::class,
+    'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
 
     /*
      * Filter out body fields which will never be logged.
