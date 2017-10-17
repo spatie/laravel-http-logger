@@ -15,6 +15,7 @@ class HttpLoggerServiceProvider extends ServiceProvider
         }
 
         $this->app->singleton(LogProfile::class, config('http-logger.log_profile'));
+        $this->app->singleton(LogOutput::class, config('http-logger.log_output'));
     }
 
     public function register()

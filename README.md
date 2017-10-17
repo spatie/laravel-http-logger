@@ -70,14 +70,19 @@ Route::get('/my-form', function () {
 
 ### Logging
 
-A default log profile is added within this package. 
-It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests.
-It will write to the default Laravel logger.
+Two classes are used to handle the logging of incoming requests: 
+a `LogProfile` class will determine whether the request should be logged,
+and `LogOutput` class will write the request to a log. 
 
-You're free to implement your own log profile, and configure it in `config/http-logger.php`.
+A default log implementation is added within this package. 
+It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests 
+and it will write to the default Laravel logger.
+
+You're free to implement your own log profile and/or log output classes, 
+and configure it in `config/http-logger.php`.
 
 A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
-This interface requires you to implement `handleRequest` and `logRequest`.
+This interface requires you to implement `shouldHandleRequest`.
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\DefaultLogProfile`
@@ -86,6 +91,13 @@ public function shouldLogRequest(Request $request): bool
 {
    return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
 }
+```
+
+A custom log output must implement `\Spatie\HttpLogger\LogOutput`. 
+This interface requires you to implement `logRequest`.
+
+```php
+// Example implementation from `\Spatie\HttpLogger\DefaultLogOutput`
 
 public function logRequest(Request $request): void
 {
