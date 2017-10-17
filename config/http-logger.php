@@ -8,7 +8,7 @@ return [
      */
     'log_profile' => \Spatie\HttpLogger\DefaultLogProfile::class,
 
-    /**
+    /*
      * The log writer used to write the request to a log.
      * It should implement `LogWriter`.
      */
