@@ -2,21 +2,21 @@
 
 namespace Spatie\HttpLogger\Test;
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\Facades\Route;
+use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\HttpLogger\HttpLoggerServiceProvider;
-use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class TestCase extends Orchestra
 {
     protected $uri = '/test-uri';
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -29,14 +29,7 @@ class TestCase extends Orchestra
         $this->setUpLog();
     }
 
-    protected function tearDown(): void
-    {
-        if (File::isDirectory($this->getTempDirectory())) {
-            File::deleteDirectory($this->getTempDirectory());
-        }
-    }
-
-    protected function initializeDirectory($directory): void
+    protected function initializeDirectory($directory)
     {
         if (File::isDirectory($directory)) {
             File::deleteDirectory($directory);
@@ -47,61 +40,50 @@ class TestCase extends Orchestra
 
     protected function getTempDirectory($suffix = ''): string
     {
-        return __DIR__ . '/temp' . ($suffix == '' ? '' : $this->uri . $suffix);
+        return __DIR__.'/temp'.($suffix == '' ? '' : $this->uri.$suffix);
     }
 
     protected function getTempFile(): string
     {
-        $path = $this->getTempDirectory() . '/test.md';
+        $path = $this->getTempDirectory().'/test.md';
 
-        File::put($path, 'Hello');
+        file_put_contents($path, 'Hello');
+
         return $path;
     }
 
     protected function getLogFile(): string
     {
-        return $this->getTempDirectory() . '/http-logger.log';
+        return $this->getTempDirectory().'/http-logger.log';
     }
 
     protected function readLogFile(): string
     {
-        return File::get($this->getLogFile());
+        return file_get_contents($this->getLogFile());
     }
 
     protected function getPackageProviders($app): array
     {
-        return [HttpLoggerServiceProvider::class];
+        return [
+            HttpLoggerServiceProvider::class,
+        ];
     }
 
-    protected function setUpRoutes(): void
+    protected function setUpRoutes()
     {
-        Route::get($this->uri, function () {
-            return 'get';
-        });
-
-        Route::post($this->uri, function () {
-            return 'post';
-        });
-
-        Route::put($this->uri, function () {
-            return 'put';
-        });
-
-        Route::patch($this->uri, function () {
-            return 'patch';
-        });
-
-        Route::delete($this->uri, function () {
-            return 'delete';
-        });
+        foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
+            Route::$method($this->uri, function () use ($method) {
+                return $method;
+            });
+        }
     }
 
-    protected function setUpGlobalMiddleware(): void
+    protected function setUpGlobalMiddleware()
     {
         $this->app[Kernel::class]->pushMiddleware(HttpLogger::class);
     }
 
-    protected function setUpLog(): void
+    protected function setUpLog()
     {
         $this->app->configureMonologUsing(function ($monolog) {
             $monolog->pushHandler(new StreamHandler($this->getLogFile()));

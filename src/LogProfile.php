@@ -8,5 +8,5 @@ interface LogProfile
 {
     public function shouldLogRequest(Request $request): bool;
 
-    public function logRequest(Request $request): void;
+    public function logRequest(Request $request);
 }

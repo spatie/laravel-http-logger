@@ -8,7 +8,7 @@ use Spatie\HttpLogger\LogProfile;
 
 class HttpLogger
 {
-    private $logProfile;
+    protected $logProfile;
 
     public function __construct(LogProfile $logProfile)
     {

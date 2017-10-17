@@ -30,13 +30,13 @@ This is the contents of the published config file:
 ```php
 return [
 
-    /**
-     * The log profile used to log requests. A log profile implements the `LogProfile` class,
-     * determines whether a request will be logged or not, and how the message is formatted.
+    /*
+     * The log profile used to log requests. A log profile determines wheter a request will be,
+     * logged or not, and how the message is formatted. It should implement `LogProfile``.
      */
-    'log_profile' => \Spatie\HttpLogger\DefaultLogger::class,
+    'log_profile' => \Spatie\HttpLogger\DefaultLogProfile::class,
 
-    /**
+    /*
      * Filter out body fields which will never be logged.
      */
     'except' => [
@@ -48,24 +48,24 @@ return [
 
 ## Usage
 
-This packages provides a middleware which can be added as a global middleware or to a single route.
+This packages provides a middleware which can be added as a global middleware or as a single route.
 
 ```php
-// As a middleware to a single route.
-
-Route::get('/my-form', function () {
-    //
-})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
-```
-
-```php
-// As a global middleware in `App\Http\Kernel`.
+// in `app/Http/Kernel.php`
 
 protected $middleware = [
     // ...
     
     \Spatie\HttpLogger\Middlewares\HttpLogger::class
 ];
+```
+
+```php
+// in a routes file
+
+Route::get('/my-form', function () {
+    //
+})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
 ```
 
 ### Logging
@@ -76,24 +76,23 @@ It will write to the default Laravel logger.
 
 You're free to implement your own log profile, and configure it in `config/http-logger.php`.
 
-A custom log profile must implement the `\Spatie\HttpLogger\LogProfile` interface. 
-This interface requires you to implement the `handleRequest` and `logRequest` methods.
+A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
+This interface requires you to implement `handleRequest` and `logRequest`.
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\DefaultLogProfile`
 
 public function shouldLogRequest(Request $request): bool
 {
-    return $request->isMethod('post')
-        || $request->isMethod('put')
-        || $request->isMethod('patch')
-        || $request->isMethod('delete');
+   return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
 }
 
 public function logRequest(Request $request): void
 {
     $method = strtoupper($request->getMethod());
+    
     $uri = $request->getPathInfo();
+    
     $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
     $message = "{$method} {$uri} - {$bodyAsJson}";
