@@ -2,18 +2,18 @@
 
 namespace Spatie\HttpLogger\Test;
 
-use Spatie\HttpLogger\DefaultLogProfile;
+use Spatie\HttpLogger\LogNonGetRequests;
 
-class DefaultLogProfileTest extends TestCase
+class LogNonGetRequestsTest extends TestCase
 {
-    /** @var \Spatie\HttpLogger\DefaultLogProfile */
+    /** @var \Spatie\HttpLogger\LogNonGetRequests */
     protected $logProfile;
 
     public function setUp()
     {
         parent::setup();
 
-        $this->logProfile = new DefaultLogProfile();
+        $this->logProfile = new LogNonGetRequests();
     }
 
     /** @test */

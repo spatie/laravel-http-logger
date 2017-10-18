@@ -31,10 +31,16 @@ This is the contents of the published config file:
 return [
 
     /*
-     * The log profile used to log requests. A log profile determines wheter a request will be,
-     * logged or not, and how the message is formatted. It should implement `LogProfile``.
+     * The log profile which determines whether a request should be logged.
+     * It should implement `LogProfile`.
      */
-    'log_profile' => \Spatie\HttpLogger\DefaultLogProfile::class,
+    'log_profile' => \Spatie\HttpLogger\LogNonGetRequests::class,
+
+    /*
+     * The log writer used to write the request to a log.
+     * It should implement `LogWriter`.
+     */
+    'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
 
     /*
      * Filter out body fields which will never be logged.
@@ -85,7 +91,7 @@ A custom log profile must implement `\Spatie\HttpLogger\LogProfile`.
 This interface requires you to implement `shouldHandleRequest`.
 
 ```php
-// Example implementation from `\Spatie\HttpLogger\DefaultLogProfile`
+// Example implementation from `\Spatie\HttpLogger\LogNonGetRequests`
 
 public function shouldLogRequest(Request $request): bool
 {
