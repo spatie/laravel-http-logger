@@ -88,7 +88,7 @@ You're free to implement your own log profile and/or log writer classes,
 and configure it in `config/http-logger.php`.
 
 A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
-This interface requires you to implement `shouldHandleRequest`.
+This interface requires you to implement `shouldLogRequest`.
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\LogNonGetRequests`
