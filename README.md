@@ -69,7 +69,7 @@ protected $middleware = [
 ```php
 // in a routes file
 
-Route::get('/my-form', function () {
+Route::post('/submit-form', function () {
     //
 })->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
 ```
