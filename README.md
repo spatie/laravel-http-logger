@@ -19,7 +19,7 @@ You can install the package via composer:
 composer require spatie/laravel-http-logger
 ```
 
-You can publish the config-file with:
+Optionally you can publish the configfile with:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\HttpLogger\HttpLoggerServiceProvider" --tag="config" 
