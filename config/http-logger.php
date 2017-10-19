@@ -21,4 +21,5 @@ return [
         'password',
         'password_confirmation',
     ],
+
 ];
