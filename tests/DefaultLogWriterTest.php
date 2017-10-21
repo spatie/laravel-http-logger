@@ -35,7 +35,7 @@ class DefaultLogWriterTest extends TestCase
     }
 
     /** @test */
-    public function the_body_is_logged()
+    public function it_will_log_the_body()
     {
         $request = $this->makeRequest('post', $this->uri, [
             'name' => 'Name',
@@ -49,7 +49,7 @@ class DefaultLogWriterTest extends TestCase
     }
 
     /** @test */
-    public function excluded_fields_are_not_logged()
+    public function it_will_not_log_excluded_fields()
     {
         $request = $this->makeRequest('post', $this->uri, [
             'name' => 'Name',
@@ -66,7 +66,7 @@ class DefaultLogWriterTest extends TestCase
     }
 
     /** @test */
-    public function files_are_logged()
+    public function it_logs_files()
     {
         $file = $this->getTempFile();
 
