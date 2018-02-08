@@ -25,8 +25,6 @@ class TestCase extends Orchestra
         $this->setUpRoutes();
 
         $this->setUpGlobalMiddleware();
-
-        $this->setUpLog();
     }
 
     protected function initializeDirectory($directory)
@@ -69,6 +67,15 @@ class TestCase extends Orchestra
         ];
     }
 
+    protected function getEnvironmentSetUp($app)
+    {
+        $app->config->set('logging.channels.single', [
+            'driver' => 'single',
+            'path' => $this->getLogFile(),
+            'level' => 'debug',
+        ]);
+    }
+
     protected function setUpRoutes()
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
@@ -81,13 +88,6 @@ class TestCase extends Orchestra
     protected function setUpGlobalMiddleware()
     {
         $this->app[Kernel::class]->pushMiddleware(HttpLogger::class);
-    }
-
-    protected function setUpLog()
-    {
-        $this->app->configureMonologUsing(function ($monolog) {
-            $monolog->pushHandler(new StreamHandler($this->getLogFile()));
-        });
     }
 
     protected function makeRequest(
