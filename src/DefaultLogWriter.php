@@ -17,7 +17,7 @@ class DefaultLogWriter implements LogWriter
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
         $files = array_map(function (UploadedFile $file) {
-            return $file->path();
+            return $file->getRealPath();
         }, iterator_to_array($request->files));
 
         $message = "{$method} {$uri} - Body: {$bodyAsJson} - Files: ".implode(', ', $files);
