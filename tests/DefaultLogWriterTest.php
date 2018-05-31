@@ -77,7 +77,7 @@ class DefaultLogWriterTest extends TestCase
         $this->logger->logRequest($request);
 
         $log = $this->readLogFile();
-        
+
         $this->assertContains('test.md', $log);
     }
 }
