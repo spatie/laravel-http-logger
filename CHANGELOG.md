@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.1.2 - 2018-06-03
+- Fixed: bug when logging upload requests
+
 ## 1.1.1 - 2018-02-08
 - Added: Laravel 5.6 compatibility
 - Removed: Dropped support for older Laravel versions
