@@ -144,6 +144,10 @@ Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
 We publish all received postcards [on our company website](https://spatie.be/en/opensource/postcards).
 
+## Similar Modules
+
+* https://github.com/iMi-digital/laravel-request-logger/blob/master/README.md
+
 ## Credits
 
 - [Brent Roose](https://github.com/brendt)
