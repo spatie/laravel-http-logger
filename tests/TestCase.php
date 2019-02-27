@@ -74,6 +74,8 @@ class TestCase extends Orchestra
             'path' => $this->getLogFile(),
             'level' => 'debug',
         ]);
+
+        $app->config->set('logging.default', 'single');
     }
 
     protected function setUpRoutes()
