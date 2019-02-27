@@ -10,7 +10,7 @@ class DefaultLogWriterTest extends TestCase
     /** @var \Spatie\HttpLogger\DefaultLogWriter */
     protected $logger;
 
-    public function setUp()
+    public function setUp() :void
     {
         parent::setup();
 

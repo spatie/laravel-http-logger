@@ -3,7 +3,6 @@
 namespace Spatie\HttpLogger\Test;
 
 use Illuminate\Http\Request;
-use Monolog\Handler\StreamHandler;
 use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +15,7 @@ class TestCase extends Orchestra
 {
     protected $uri = '/test-uri';
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -74,6 +73,8 @@ class TestCase extends Orchestra
             'path' => $this->getLogFile(),
             'level' => 'debug',
         ]);
+
+        $app->config->set('logging.default', 'single');
     }
 
     protected function setUpRoutes()
