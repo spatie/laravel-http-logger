@@ -28,10 +28,10 @@ class DefaultLogWriterTest extends TestCase
 
         $log = $this->readLogFile();
 
-        $this->assertContains("POST {$this->uri}", $log);
-        $this->assertContains("PUT {$this->uri}", $log);
-        $this->assertContains("PATCH {$this->uri}", $log);
-        $this->assertContains("DELETE {$this->uri}", $log);
+        $this->assertStringContainsString("POST {$this->uri}", $log);
+        $this->assertStringContainsString("PUT {$this->uri}", $log);
+        $this->assertStringContainsString("PATCH {$this->uri}", $log);
+        $this->assertStringContainsString("DELETE {$this->uri}", $log);
     }
 
     /** @test */
@@ -45,7 +45,7 @@ class DefaultLogWriterTest extends TestCase
 
         $log = $this->readLogFile();
 
-        $this->assertContains('"name":"Name', $log);
+        $this->assertStringContainsString('"name":"Name', $log);
     }
 
     /** @test */
@@ -61,8 +61,8 @@ class DefaultLogWriterTest extends TestCase
 
         $log = $this->readLogFile();
 
-        $this->assertNotContains('password', $log);
-        $this->assertNotContains('password_confirmation', $log);
+        $this->assertStringNotContainsString('password', $log);
+        $this->assertStringNotContainsString('password_confirmation', $log);
     }
 
     /** @test */
@@ -78,6 +78,6 @@ class DefaultLogWriterTest extends TestCase
 
         $log = $this->readLogFile();
 
-        $this->assertContains('test.md', $log);
+        $this->assertStringContainsString('test.md', $log);
     }
 }
