@@ -22,8 +22,9 @@ class DefaultLogWriterTest extends TestCase
     {
         foreach (['post', 'put', 'patch', 'delete'] as $method) {
             $request = $this->makeRequest($method, $this->uri);
+            $response = $this->makeResponse($request, "");
 
-            $this->logger->logRequest($request);
+            $this->logger->logRequestResponse($request, $response);
         }
 
         $log = $this->readLogFile();
@@ -41,7 +42,9 @@ class DefaultLogWriterTest extends TestCase
             'name' => 'Name',
         ]);
 
-        $this->logger->logRequest($request);
+        $response = $this->makeResponse($request, "");
+
+        $this->logger->logRequestResponse($request, $response);
 
         $log = $this->readLogFile();
 
@@ -57,7 +60,9 @@ class DefaultLogWriterTest extends TestCase
             'password_confirmation' => 'none',
         ]);
 
-        $this->logger->logRequest($request);
+        $response = $this->makeResponse($request, "");
+
+        $this->logger->logRequestResponse($request, $response);
 
         $log = $this->readLogFile();
 
@@ -74,7 +79,9 @@ class DefaultLogWriterTest extends TestCase
             'file' => new UploadedFile($file, 'test.md'),
         ]);
 
-        $this->logger->logRequest($request);
+        $response = $this->makeResponse($request, "test");
+
+        $this->logger->logRequestResponse($request, $response);
 
         $log = $this->readLogFile();
 

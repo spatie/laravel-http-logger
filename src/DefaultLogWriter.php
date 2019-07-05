@@ -3,12 +3,13 @@
 namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultLogWriter implements LogWriter
 {
-    public function logRequest(Request $request)
+    public function logRequestResponse(Request $request, $response)
     {
         $method = strtoupper($request->getMethod());
 
@@ -20,7 +21,12 @@ class DefaultLogWriter implements LogWriter
             return $file->getClientOriginalName();
         }, iterator_to_array($request->files));
 
-        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Files: ".implode(', ', $files);
+        $responseBodyAsJson = json_encode($response->getContent());
+        $statusCode = $response->getStatusCode();
+        $responseHeaderAsJson = json_encode($response->headers);
+
+        $message = "{$method} {$uri} - RequestBody: {$bodyAsJson} - Files: ".implode(', ', $files);
+        $message .= "HttpStatus: $statusCode - ResponseBody: $responseBodyAsJson - Header: $responseHeaderAsJson";
 
         Log::info($message);
     }
