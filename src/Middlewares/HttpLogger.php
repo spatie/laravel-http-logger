@@ -18,7 +18,6 @@ class HttpLogger
         $this->logWriter = $logWriter;
     }
 
-
     public function terminate(Request $request, Response $response)
     {
         if ($this->logProfile->shouldLogRequest($request)) {

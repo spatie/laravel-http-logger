@@ -8,6 +8,6 @@ class LogRequests implements LogProfile
 {
     public function shouldLogRequest(Request $request): bool
     {
-        return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete', 'get']);
+        return in_array(strtolower($request->method()), config('http-logger.log_method'));
     }
 }
