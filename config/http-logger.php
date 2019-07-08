@@ -22,4 +22,21 @@ return [
         'password_confirmation',
     ],
 
+    /*
+     * The log response is an options to decide log response or not
+     */
+    'log_response' => true,
+
+    /*
+     * Log only the methods configured here
+     * options: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'
+     */
+    'log_method' => [
+        'post', 'put', 'patch', 'delete', 'get',
+    ],
+
+    /*
+     * Log user id
+     */
+    'auth_user_id' => true
 ];
