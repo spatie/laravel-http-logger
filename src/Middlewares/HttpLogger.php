@@ -2,6 +2,7 @@
 
 namespace Spatie\HttpLogger\Middlewares;
 
+use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Spatie\HttpLogger\LogWriter;
@@ -16,6 +17,11 @@ class HttpLogger
     {
         $this->logProfile = $logProfile;
         $this->logWriter = $logWriter;
+    }
+
+    public function handle($request, Closure $next)
+    {
+        return $next($request);
     }
 
     public function terminate(Request $request, Response $response)
