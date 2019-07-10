@@ -25,17 +25,17 @@ class DefaultLogWriter implements LogWriter
         $message = "{$method} {$uri} - RequestBody: {$bodyAsJson} - Files: ".implode(', ', $files);
 
         if (config('http-logger.auth_user_id', false)) {
-            $message .= "UserId: ".Auth::id();
+            $message .= "UserId: ".Auth::id()."-";
         }
 
         if (config('http-logger.log_response', false)) {
-            $responseBodyAsJson = json_encode($response->getContent());
+            $responseBodyAsJson = $response->getContent();
             $statusCode = $response->getStatusCode();
             $responseHeaderAsJson = json_encode($response->headers);
 
             $message .= "HttpStatus: $statusCode - ResponseBody: $responseBodyAsJson - Header: $responseHeaderAsJson";
         }
 
-        Log::info($message);
+        Log::channel('httplogger')->info($message);
     }
 }
