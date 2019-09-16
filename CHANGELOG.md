@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.3.1 - 2019-09-16
+- Changed: Updated Laravel 6 compatibility for future versions
+
 ## 1.3.0 - 2019-09-04
 - Added: Laravel 6.0 compatibility
 
