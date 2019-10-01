@@ -15,12 +15,14 @@ class DefaultLogWriter implements LogWriter
         $uri = $request->getPathInfo();
 
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
+        
+        $headersAsJson = json_encode($request->headers->all());
 
         $files = array_map(function (UploadedFile $file) {
             return $file->getClientOriginalName();
         }, iterator_to_array($request->files));
 
-        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Files: ".implode(', ', $files);
+        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: " . implode(', ', $files);
 
         Log::info($message);
     }
