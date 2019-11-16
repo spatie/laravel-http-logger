@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.4.0 - 2019-11-16
+- add the support for arrays with files in a request (#29)
+
 ## 1.3.1 - 2019-09-16
 - Changed: Updated Laravel 6 compatibility for future versions
 
