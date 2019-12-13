@@ -3,6 +3,7 @@
 namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -16,14 +17,24 @@ class DefaultLogWriter implements LogWriter
 
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
-        $headersAsJson = json_encode($request->headers->all());
-
-        $files = array_map(function (UploadedFile $file) {
-            return $file->getClientOriginalName();
-        }, iterator_to_array($request->files));
-
+        $files = (new Collection(iterator_to_array($request->files)))
+            ->map([$this, 'flatFiles'])
+            ->flatten()
+            ->implode(',')
+        ;
         $message = "{$method} {$uri} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".implode(', ', $files);
 
         Log::info($message);
+    }
+
+    public function flatFiles($file)
+    {
+        if ($file instanceof UploadedFile) {
+            return $file->getClientOriginalName();
+        }
+        if (is_array($file)) {
+            return array_map([$this, 'flatFiles'], $file);
+        }
+        return (string) $file;
     }
 }
