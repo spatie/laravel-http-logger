@@ -3,15 +3,10 @@
 namespace Spatie\HttpLogger;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HtmlResponse;
-use Illuminate\Http\JsonResponse;
-use JsonSerializable;
-use stdClass;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultLogResponseWriter implements LogResponseWriter
@@ -26,24 +21,21 @@ class DefaultLogResponseWriter implements LogResponseWriter
 
         try {
             if ($response instanceof Response) {
-                if ($response->getStatusCode() == 200 ) {
+                if ($response->getStatusCode() == 200) {
                     if ($response instanceof JsonResponse) {
                         $body = json_encode($response->getData());
-                    } else if ($response instanceof HtmlResponse) {
+                    } elseif ($response instanceof HtmlResponse) {
                         $body = $response->getContent();
                     } else {
                         $body = $response;
                     }
 
                     $message = "{$method} {$uri} - ResponseBody: {$body}";
-                }
-                else {
+                } else {
                     $message = "{$method} {$uri} - ResponseBodyCode: {$response->getStatusCode()}";
                 }
             }
-        }
-        catch(Exception $e) {
-
+        } catch (Exception $e) {
         }
 
         Log::info($message);

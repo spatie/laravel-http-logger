@@ -4,11 +4,11 @@ namespace Spatie\HttpLogger\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Spatie\HttpLogger\LogWriter;
 use Spatie\HttpLogger\LogProfile;
-use Spatie\HttpLogger\LogResponseWriter;
 use Spatie\HttpLogger\LogResponseProfile;
+use Spatie\HttpLogger\LogResponseWriter;
+use Spatie\HttpLogger\LogWriter;
+use Symfony\Component\HttpFoundation\Response;
 
 class HttpLogger
 {
@@ -37,7 +37,5 @@ class HttpLogger
         if ($this->logResponseProfile->shouldLogResponse($request, $response)) {
             $this->logResponseWriter->logResponse($request, $response);
         }
-
     }
-
 }
