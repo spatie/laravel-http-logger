@@ -17,12 +17,14 @@ class DefaultLogWriter implements LogWriter
 
         $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
+        $headersAsJson = json_encode($request->headers->all());
+
         $files = (new Collection(iterator_to_array($request->files)))
             ->map([$this, 'flatFiles'])
             ->flatten()
-            ->implode(',')
-        ;
-        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Files: ". $files;
+            ->implode(',');
+
+        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".$files;
 
         Log::info($message);
     }
@@ -35,6 +37,7 @@ class DefaultLogWriter implements LogWriter
         if (is_array($file)) {
             return array_map([$this, 'flatFiles'], $file);
         }
+
         return (string) $file;
     }
 }
