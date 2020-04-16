@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.6.0 - 2020-04-15
+- add Headers into `DefaultLogWriter` (#32)
+
 ## 1.5.0 - 2020-03-03
 - add support for Laravel 7
 
