@@ -2,13 +2,13 @@
 
 namespace Spatie\HttpLogger\Test;
 
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
-use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\HttpLogger\HttpLoggerServiceProvider;
+use Spatie\HttpLogger\Middlewares\HttpLogger;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class TestCase extends Orchestra
@@ -104,8 +104,13 @@ class TestCase extends Orchestra
 
         return Request::createFromBase(
             SymfonyRequest::create(
-                $this->prepareUrlForRequest($uri), $method, $parameters,
-                $cookies, $files, array_replace($this->serverVariables, $server), $content
+                $this->prepareUrlForRequest($uri),
+                $method,
+                $parameters,
+                $cookies,
+                $files,
+                array_replace($this->serverVariables, $server),
+                $content
             )
         );
     }

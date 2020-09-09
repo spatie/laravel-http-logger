@@ -88,7 +88,7 @@ class DefaultLogWriterTest extends TestCase
 
         $request = $this->makeRequest('post', $this->uri, [], [], [
             'files' => [
-                new UploadedFile($file, 'test.md')
+                new UploadedFile($file, 'test.md'),
             ],
         ]);
 
