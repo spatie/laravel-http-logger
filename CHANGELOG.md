@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+
+## 1.6.2 - 2020-12-02
+
+- Support PHP 8.0
+
 ## 1.6.1 - 2020-09-09
 
 - Support Laravel 9
