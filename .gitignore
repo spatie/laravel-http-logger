@@ -3,6 +3,7 @@ composer.lock
 docs
 vendor
 tests/temp
+.php_cs.cache
 
 \.idea/
 

@@ -2,6 +2,30 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+
+## 1.6.2 - 2020-12-02
+
+- Support PHP 8.0
+
+## 1.6.1 - 2020-09-09
+
+- Support Laravel 9
+
+## 1.6.0 - 2020-04-15
+- add Headers into `DefaultLogWriter` (#32)
+
+## 1.5.0 - 2020-03-03
+- add support for Laravel 7
+
+## 1.4.0 - 2019-11-16
+- add the support for arrays with files in a request (#29)
+
+## 1.3.1 - 2019-09-16
+- Changed: Updated Laravel 6 compatibility for future versions
+
+## 1.3.0 - 2019-09-04
+- Added: Laravel 6.0 compatibility
+
 ## 1.2.0 - 2019-02-27
 - drop support for L5.7 and below, PHP 7.1 and PHPUnit 7
 
