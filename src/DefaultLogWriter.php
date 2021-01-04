@@ -11,22 +11,33 @@ class DefaultLogWriter implements LogWriter
 {
     public function logRequest(Request $request)
     {
-        $method = strtoupper($request->getMethod());
-
-        $uri = $request->getPathInfo();
-
-        $bodyAsJson = json_encode($request->except(config('http-logger.except')));
-
-        $headersAsJson = json_encode($request->headers->all());
-
-        $files = (new Collection(iterator_to_array($request->files)))
-            ->map([$this, 'flatFiles'])
-            ->flatten()
-            ->implode(',');
-
-        $message = "{$method} {$uri} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".$files;
+        $message = $this->formatMessage($this->getMessage($request));
 
         Log::info($message);
+    }
+
+    public function getMessage(Request $request)
+    {
+        $files = (new Collection(iterator_to_array($request->files)))
+            ->map([$this, 'flatFiles'])
+            ->flatten();
+
+        return [
+            'method' => strtoupper($request->getMethod()),
+            'uri' => $request->getPathInfo(),
+            'body' => $request->except(config('http-logger.except')),
+            'headers' => $request->headers->all(),
+            'files' => $files,
+        ];
+    }
+
+    protected function formatMessage(array $message)
+    {
+        $bodyAsJson = json_encode($message['body']);
+        $headersAsJson = json_encode($message['headers']);
+        $files = $message['files']->implode(',');
+
+        return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".$files;
     }
 
     public function flatFiles($file)
