@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.7.0 - 2021-01-04
+
+- split up default writer (#39)
 
 ## 1.6.2 - 2020-12-02
 
