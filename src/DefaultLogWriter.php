@@ -31,7 +31,7 @@ class DefaultLogWriter implements LogWriter
         ];
     }
 
-    public function formatMessage(array $message)
+    protected function formatMessage(array $message)
     {
         $bodyAsJson = json_encode($message['body']);
         $headersAsJson = json_encode($message['headers']);
