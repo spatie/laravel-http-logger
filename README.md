@@ -51,7 +51,7 @@ return [
     /*
      * The log channel used to write the request.
      */
-    'log_channel' => 'info',
+    'log_channel' => env('LOG_CHANNEL', 'stack'),
 
     /*
      * Filter out body fields which will never be logged.

@@ -68,13 +68,15 @@ class TestCase extends Orchestra
 
     protected function getEnvironmentSetUp($app)
     {
-        $app->config->set('logging.channels.single', [
+        $logChannel = config('http-logger.log_channel');
+
+        $app->config->set('logging.channels.' . $logChannel, [
             'driver' => 'single',
             'path' => $this->getLogFile(),
             'level' => 'debug',
         ]);
 
-        $app->config->set('logging.default', 'single');
+        $app->config->set('logging.default', $logChannel);
     }
 
     protected function setUpRoutes()
