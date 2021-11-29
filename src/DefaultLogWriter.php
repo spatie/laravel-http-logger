@@ -13,7 +13,7 @@ class DefaultLogWriter implements LogWriter
     {
         $message = $this->formatMessage($this->getMessage($request));
 
-        Log::info($message);
+        Log::channel(config('http-logger.log_channel'))->info($message);
     }
 
     public function getMessage(Request $request)
