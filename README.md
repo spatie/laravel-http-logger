@@ -47,6 +47,11 @@ return [
      * It should implement `LogWriter`.
      */
     'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
+    
+    /*
+     * The log channel used to write the request.
+     */
+    'log_channel' => 'info',
 
     /*
      * Filter out body fields which will never be logged.
@@ -121,7 +126,7 @@ public function logRequest(Request $request): void
 
     $message = "{$method} {$uri} - {$bodyAsJson}";
 
-    Log::info($message);
+    Log::channel(config('http-logger.log_channel'))->info($message);
 }
 ```
 
