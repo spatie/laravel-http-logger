@@ -9,9 +9,11 @@ class HttpLoggerServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/../config/http-logger.php' => config_path('http-logger.php'),
-            ], 'config');
+                ], 'config'
+            );
         }
 
         $this->app->singleton(LogProfile::class, config('http-logger.log_profile'));

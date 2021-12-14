@@ -53,16 +53,15 @@ class DefaultLogWriterTest extends TestCase
     {
         $request = $this->makeRequest('post', $this->uri, [
             'name' => 'Name',
-            'password' => 'none',
-            'password_confirmation' => 'none',
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
         ]);
 
         $this->logger->logRequest($request);
 
         $log = $this->readLogFile();
 
-        $this->assertStringNotContainsString('password', $log);
-        $this->assertStringNotContainsString('password_confirmation', $log);
+        $this->assertStringNotContainsString('secret', $log);
     }
 
     /** @test */

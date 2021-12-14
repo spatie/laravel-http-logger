@@ -22,7 +22,7 @@ class LogNonGetRequestsTest extends TestCase
         foreach (['post', 'put', 'patch', 'delete'] as $method) {
             $request = $this->makeRequest($method, $this->uri);
 
-            $this->assertTrue($this->logProfile->shouldLogRequest($request), "{$method} should be logged.");
+            $this->assertTrue($this->logProfile->shouldLogRequestResponse($request), "{$method} should be logged.");
         }
     }
 
@@ -32,7 +32,7 @@ class LogNonGetRequestsTest extends TestCase
         foreach (['get', 'head', 'options', 'trace'] as $method) {
             $request = $this->makeRequest($method, $this->uri);
 
-            $this->assertFalse($this->logProfile->shouldLogRequest($request), "{$method} should not be logged.");
+            $this->assertFalse($this->logProfile->shouldLogRequestResponse($request), "{$method} should not be logged.");
         }
     }
 }
