@@ -4,11 +4,11 @@ namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
 
-class LogAllRequests implements LogProfile
+class LogAllAndNonGetResponse implements LogProfile
 {
     public function shouldLogRequest(Request $request): bool
     {
-        return true;
+        return !in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
     }
 
     public function shouldLogResponse(Request $request): bool
@@ -18,6 +18,6 @@ class LogAllRequests implements LogProfile
 
     public function shouldLogRequestResponse(Request $request): bool
     {
-        return false;
+        return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
     }
 }

@@ -3,7 +3,6 @@
 namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,15 +13,52 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class EcsLogWriter extends DefaultLogWriter implements LogWriter {
     public function logRequest(Request $request)
     {
-        return false;
+        $request_message = $this->getMessage($request);
+        $request_body = json_encode($request_message['body']);
+
+        $data = [
+            'http' => [
+                'request' => [
+                    'id' => $request_message['request_id'],
+                    'method' => $request_message['method'],
+                    'body' => [
+                        'bytes' => strlen($request_body),
+                        'content' => $request_body
+                    ]
+                ],
+
+            ],
+            'request' => $request_message,
+        ];
+
+        Log::channel(config('http-logger.log_channel'))->info(null, $data);
     }
 
-    public function logResponse(Request $request, Response $response, ?float $time_taken)
+    public function logResponse(Request $request, $response, ?float $time_taken)
     {
-        return false;
+        $response_message = $this->getResponseMessage($request, $response, $time_taken);
+
+        $data = [
+            'http' => [
+                'request' => [
+                    'id' => $request_message['request_id'],
+                ],
+
+                'response' => [
+                    'body' => [
+                        'bytes' => strlen($response_message['content']),
+                        'content' => $response_message['content']
+                    ]
+                ]
+            ],
+            'response' => $response_message,
+        ];
+
+        Log::channel(config('http-logger.log_channel'))->info(null, $data);
     }
 
-    public function logRequestResponse(Request $request, Response $response, ?float $time_taken)
+    public function logRequestResponse(Request $request, $response, ?float $time_taken)
+
     {
         $request_message = $this->getMessage($request);
         $response_message = $this->getResponseMessage($request, $response, $time_taken);

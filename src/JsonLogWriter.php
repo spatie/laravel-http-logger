@@ -3,7 +3,6 @@
 namespace Spatie\HttpLogger;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,7 +16,7 @@ class JsonLogWriter extends DefaultLogWriter implements LogWriter {
         Log::channel(config('http-logger.log_channel'))->info($message);
     }
 
-    public function logResponse(Request $request, Response $response, ?float $time_taken)
+    public function logResponse(Request $request, $response, ?float $time_taken)
     {
         $data = $this->getResponseMessage($request, $response, $time_taken);
         $message = $this->formatResponseMessage($data);
@@ -25,7 +24,7 @@ class JsonLogWriter extends DefaultLogWriter implements LogWriter {
         Log::channel(config('http-logger.log_channel'))->info($message);
     }
 
-    public function logRequestResponse(Request $request, Response $response, ?float $time_taken)
+    public function logRequestResponse(Request $request, $response, ?float $time_taken)
     {
         $request_message = $this->getMessage($request);
         $response_message = $this->getResponseMessage($request, $response, $time_taken);
