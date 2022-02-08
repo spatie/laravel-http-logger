@@ -98,4 +98,24 @@ class DefaultLogWriterTest extends TestCase
 
         $this->assertStringContainsString('test.md', $log);
     }
+
+    /** @test */
+    public function it_logs_multiple_files_in_an_array()
+    {
+        $file = $this->getTempFile();
+
+        $request = $this->makeRequest('post', $this->uri, [], [], [
+            'files' => [
+                new UploadedFile($file, 'first.doc'),
+                new UploadedFile($file, 'second.doc'),
+            ],
+        ]);
+
+        $this->logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertStringContainsString('first.doc', $log);
+        $this->assertStringContainsString('second.doc', $log);
+    }
 }
