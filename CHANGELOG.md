@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.9.0 - 2022-02-08
+
+Allow Laravel 9
+
 ## 1.8.0 - 2021-11-29
 
 ## What's Changed
