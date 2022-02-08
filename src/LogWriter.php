@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface LogWriter
 {
-    public function logRequest(Request $request);
+    public function logRequest(Request $request): void;
 }

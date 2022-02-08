@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultLogWriter implements LogWriter
 {
-    public function logRequest(Request $request)
+    public function logRequest(Request $request): void
     {
         $message = $this->formatMessage($this->getMessage($request));
 
