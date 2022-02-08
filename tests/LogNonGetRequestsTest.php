@@ -9,7 +9,7 @@ class LogNonGetRequestsTest extends TestCase
     /** @var \Spatie\HttpLogger\LogNonGetRequests */
     protected $logProfile;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setup();
 
