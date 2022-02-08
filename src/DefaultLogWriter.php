@@ -16,7 +16,7 @@ class DefaultLogWriter implements LogWriter
         Log::channel(config('http-logger.log_channel'))->info($message);
     }
 
-    public function getMessage(Request $request)
+    public function getMessage(Request $request): array
     {
         $files = (new Collection(iterator_to_array($request->files)))
             ->map([$this, 'flatFiles'])
