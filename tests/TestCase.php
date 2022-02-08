@@ -15,7 +15,7 @@ class TestCase extends Orchestra
 {
     protected $uri = '/test-uri';
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
