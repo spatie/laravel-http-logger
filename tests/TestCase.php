@@ -103,6 +103,7 @@ class TestCase extends Orchestra
         $content = null
     ): Request {
         $files = array_merge($files, $this->extractFilesFromDataArray($parameters));
+        $server = array_replace($this->serverVariables, $server);
 
         return Request::createFromBase(
             SymfonyRequest::create(
@@ -111,7 +112,7 @@ class TestCase extends Orchestra
                 $parameters,
                 $cookies,
                 $files,
-                array_replace($this->serverVariables, $server),
+                $server,
                 $content
             )
         );
