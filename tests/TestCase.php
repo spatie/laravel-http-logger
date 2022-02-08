@@ -102,12 +102,13 @@ class TestCase extends Orchestra
         array $server = [],
         $content = null
     ): Request {
+        $uri = $this->prepareUrlForRequest($uri);
         $files = array_merge($files, $this->extractFilesFromDataArray($parameters));
         $server = array_replace($this->serverVariables, $server);
 
         return Request::createFromBase(
             SymfonyRequest::create(
-                $this->prepareUrlForRequest($uri),
+                $uri,
                 $method,
                 $parameters,
                 $cookies,
