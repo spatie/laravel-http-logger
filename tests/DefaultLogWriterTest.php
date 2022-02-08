@@ -82,7 +82,7 @@ class DefaultLogWriterTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_files_in_an_array()
+    public function it_logs_one_file_in_an_array()
     {
         $file = $this->getTempFile();
 
