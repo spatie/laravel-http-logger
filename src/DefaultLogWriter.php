@@ -37,7 +37,14 @@ class DefaultLogWriter implements LogWriter
         $headersAsJson = json_encode($message['headers']);
         $files = $message['files']->implode(',');
 
-        return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".$files;
+        return sprintf(
+            '%s %s - Body: %s - Headers: %s - Files: %s',
+            $message['method'],
+            $message['uri'],
+            $bodyAsJson,
+            $headersAsJson,
+            $files
+        );
     }
 
     public function flatFiles($file)
