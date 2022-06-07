@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.10.0 - 2022-06-07
+
+### What's Changed
+
+- TestCase a little improvement by @kudashevs in https://github.com/spatie/laravel-http-logger/pull/47
+- Add additional file test by @kudashevs in https://github.com/spatie/laravel-http-logger/pull/49
+- customizable log level by @Henning256 in https://github.com/spatie/laravel-http-logger/pull/50
+
+### New Contributors
+
+- @kudashevs made their first contribution in https://github.com/spatie/laravel-http-logger/pull/47
+- @Henning256 made their first contribution in https://github.com/spatie/laravel-http-logger/pull/50
+
+**Full Changelog**: https://github.com/spatie/laravel-http-logger/compare/1.9.0...1.10.0
+
 ## 1.9.0 - 2022-02-08
 
 Allow Laravel 9
