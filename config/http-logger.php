@@ -15,13 +15,13 @@ return [
     'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
 
     /*
-    * The log channel used to write the request.
-    */
+     * The log channel used to write the request.
+     */
     'log_channel' => env('LOG_CHANNEL', 'stack'),
 
     /*
-    * The log level used to log the request.
-    */
+     * The log level used to log the request.
+     */
     'log_level' => 'info',
 
     /*
