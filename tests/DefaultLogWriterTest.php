@@ -118,4 +118,35 @@ class DefaultLogWriterTest extends TestCase
         $this->assertStringContainsString('first.doc', $log);
         $this->assertStringContainsString('second.doc', $log);
     }
+
+    /** @test */
+    public function it_logs_using_the_default_log_level()
+    {
+        $request = $this->makeRequest('post', $this->uri, [
+            'name' => 'Name',
+        ]);
+
+        $this->logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertStringContainsString('testing.INFO', $log);
+        $this->assertStringContainsString('"name":"Name', $log);
+    }
+
+    /** @test */
+    public function it_logs_using_the_configured_log_level()
+    {
+        config(['http-logger.log_level' => 'debug']);
+        $request = $this->makeRequest('post', $this->uri, [
+            'name' => 'Name',
+        ]);
+
+        $this->logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertStringContainsString('testing.DEBUG', $log);
+        $this->assertStringContainsString('"name":"Name', $log);
+    }
 }
