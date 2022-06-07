@@ -5,18 +5,25 @@ namespace Spatie\HttpLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Spatie\HttpLogger\LogWriter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultLogWriter implements LogWriter
 {
     public function logRequest(Request $request)
     {
-        $message = $this->formatMessage($this->getMessage($request));
+        $message = config('http-logger.log_message');
+        if ($message === null) {
+            $message = $this->formatMessage($this->getInfo($request));
+            $context = [];
+        } else {
+            $context = $this->getInfo($request);
+        }
 
-        Log::channel(config('http-logger.log_channel'))->log(config('http-logger.log_level', 'info'), $message);
+        Log::channel(config('http-logger.log_channel'))->log(config('http-logger.log_level', 'info'), $message, $context);
     }
 
-    public function getMessage(Request $request)
+    public function getInfo(Request $request)
     {
         $files = (new Collection(iterator_to_array($request->files)))
             ->map([$this, 'flatFiles'])
@@ -31,13 +38,13 @@ class DefaultLogWriter implements LogWriter
         ];
     }
 
-    protected function formatMessage(array $message)
+    protected function formatMessage(array $info)
     {
-        $bodyAsJson = json_encode($message['body']);
-        $headersAsJson = json_encode($message['headers']);
-        $files = $message['files']->implode(',');
+        $bodyAsJson = json_encode($info['body']);
+        $headersAsJson = json_encode($info['headers']);
+        $files = $info['files']->implode(',');
 
-        return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: " . $files;
+        return "{$info['method']} {$info['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: " . $files;
     }
 
     public function flatFiles($file)
