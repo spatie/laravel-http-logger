@@ -55,7 +55,12 @@ return [
      * The log channel used to write the request.
      */
     'log_channel' => env('LOG_CHANNEL', 'stack'),
-
+    
+    /*
+     * The log level used to log the request.
+     */
+    'log_level' => 'info',
+    
     /*
      * Filter out body fields which will never be logged.
      */

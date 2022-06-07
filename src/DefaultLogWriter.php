@@ -13,7 +13,7 @@ class DefaultLogWriter implements LogWriter
     {
         $message = $this->formatMessage($this->getMessage($request));
 
-        Log::channel(config('http-logger.log_channel'))->info($message);
+        Log::channel(config('http-logger.log_channel'))->log(config('http-logger.log_level', 'info'), $message);
     }
 
     public function getMessage(Request $request)
@@ -37,7 +37,7 @@ class DefaultLogWriter implements LogWriter
         $headersAsJson = json_encode($message['headers']);
         $files = $message['files']->implode(',');
 
-        return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: ".$files;
+        return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: " . $files;
     }
 
     public function flatFiles($file)
