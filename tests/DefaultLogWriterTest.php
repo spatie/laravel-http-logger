@@ -149,4 +149,19 @@ class DefaultLogWriterTest extends TestCase
         $this->assertStringContainsString('testing.DEBUG', $log);
         $this->assertStringContainsString('"name":"Name', $log);
     }
+
+    /** @test */
+    public function it_logs_the_configured_message()
+    {
+        $message = 'Test Message';
+        config(['http-logger.log_message' => $message]);
+        $request = $this->makeRequest('post', $this->uri);
+
+        $this->logger->logRequest($request);
+
+        $log = $this->readLogFile();
+
+        $this->assertStringContainsString($message, $log);
+    }
+
 }
