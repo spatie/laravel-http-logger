@@ -62,6 +62,11 @@ return [
     'log_level' => 'info',
     
     /*
+     * A fixed string for the log message. If not null the request information is logged to the context.
+     */
+    'log_message' => null,
+    
+    /*
      * Filter out body fields which will never be logged.
      */
     'except' => [
