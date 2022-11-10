@@ -3,9 +3,11 @@
 namespace Spatie\HttpLogger\Test;
 
 use Illuminate\Http\UploadedFile;
-use Spatie\HttpLogger\DefaultLogWriter;
+
 use function PHPUnit\Framework\assertStringContainsString;
 use function PHPUnit\Framework\assertStringNotContainsString;
+
+use Spatie\HttpLogger\DefaultLogWriter;
 
 beforeEach(function () {
     $this->logger = new DefaultLogWriter();
