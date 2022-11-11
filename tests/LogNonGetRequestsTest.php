@@ -1,14 +1,12 @@
 <?php
 
-namespace Spatie\HttpLogger\Test;
-
 use Spatie\HttpLogger\LogNonGetRequests;
 
 beforeEach(function () {
     $this->logProfile = new LogNonGetRequests();
 });
 
-test('it logs post patch put delete', function () {
+it('logs post patch put delete', function () {
     foreach (['post', 'put', 'patch', 'delete'] as $method) {
         $request = $this->makeRequest($method, $this->uri);
 
@@ -16,7 +14,7 @@ test('it logs post patch put delete', function () {
     }
 });
 
-test('it doesnt log get head options trace', function () {
+it('doesnt log get head options trace', function () {
     foreach (['get', 'head', 'options', 'trace'] as $method) {
         $request = $this->makeRequest($method, $this->uri);
 
