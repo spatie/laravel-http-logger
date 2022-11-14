@@ -1,152 +1,129 @@
 <?php
 
-namespace Spatie\HttpLogger\Test;
-
 use Illuminate\Http\UploadedFile;
+
+use function PHPUnit\Framework\assertStringContainsString;
+use function PHPUnit\Framework\assertStringNotContainsString;
+
 use Spatie\HttpLogger\DefaultLogWriter;
 
-class DefaultLogWriterTest extends TestCase
-{
-    /** @var \Spatie\HttpLogger\DefaultLogWriter */
-    protected $logger;
+beforeEach(function () {
+    $this->logger = new DefaultLogWriter();
+});
 
-    public function setUp(): void
-    {
-        parent::setup();
-
-        $this->logger = new DefaultLogWriter();
-    }
-
-    /** @test */
-    public function it_logs_request_method_and_uri()
-    {
-        foreach (['post', 'put', 'patch', 'delete'] as $method) {
-            $request = $this->makeRequest($method, $this->uri);
-
-            $this->logger->logRequest($request);
-        }
-
-        $log = $this->readLogFile();
-
-        $this->assertStringContainsString("POST {$this->uri}", $log);
-        $this->assertStringContainsString("PUT {$this->uri}", $log);
-        $this->assertStringContainsString("PATCH {$this->uri}", $log);
-        $this->assertStringContainsString("DELETE {$this->uri}", $log);
-    }
-
-    /** @test */
-    public function it_will_log_the_body()
-    {
-        $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name',
-        ]);
+it('logs request method and uri', function () {
+    foreach (['post', 'put', 'patch', 'delete'] as $method) {
+        $request = $this->makeRequest($method, $this->uri);
 
         $this->logger->logRequest($request);
-
-        $log = $this->readLogFile();
-
-        $this->assertStringContainsString('"name":"Name', $log);
     }
 
-    /** @test */
-    public function it_will_not_log_excluded_fields()
-    {
-        $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name',
-            'password' => 'none',
-            'password_confirmation' => 'none',
-        ]);
+    $log = $this->readLogFile();
 
-        $this->logger->logRequest($request);
+    assertStringContainsString("POST {$this->uri}", $log);
+    assertStringContainsString("PUT {$this->uri}", $log);
+    assertStringContainsString("PATCH {$this->uri}", $log);
+    assertStringContainsString("DELETE {$this->uri}", $log);
+});
 
-        $log = $this->readLogFile();
+it('will log the body', function () {
+    $request = $this->makeRequest('post', $this->uri, [
+        'name' => 'Name',
+    ]);
 
-        $this->assertStringNotContainsString('password', $log);
-        $this->assertStringNotContainsString('password_confirmation', $log);
-    }
+    $this->logger->logRequest($request);
 
-    /** @test */
-    public function it_logs_files()
-    {
-        $file = $this->getTempFile();
+    $log = $this->readLogFile();
 
-        $request = $this->makeRequest('post', $this->uri, [], [], [
-            'file' => new UploadedFile($file, 'test.md'),
-        ]);
+    assertStringContainsString('"name":"Name', $log);
+});
 
-        $this->logger->logRequest($request);
+it('will not log excluded fields', function () {
+    $request = $this->makeRequest('post', $this->uri, [
+        'name' => 'Name',
+        'password' => 'none',
+        'password_confirmation' => 'none',
+    ]);
 
-        $log = $this->readLogFile();
+    $this->logger->logRequest($request);
 
-        $this->assertStringContainsString('test.md', $log);
-    }
+    $log = $this->readLogFile();
 
-    /** @test */
-    public function it_logs_one_file_in_an_array()
-    {
-        $file = $this->getTempFile();
+    assertStringNotContainsString('password', $log);
+    assertStringNotContainsString('password_confirmation', $log);
+});
 
-        $request = $this->makeRequest('post', $this->uri, [], [], [
-            'files' => [
-                new UploadedFile($file, 'test.md'),
-            ],
-        ]);
+it('logs files', function () {
+    $file = $this->getTempFile();
 
-        $this->logger->logRequest($request);
+    $request = $this->makeRequest('post', $this->uri, [], [], [
+        'file' => new UploadedFile($file, 'test.md'),
+    ]);
 
-        $log = $this->readLogFile();
+    $this->logger->logRequest($request);
 
-        $this->assertStringContainsString('test.md', $log);
-    }
+    $log = $this->readLogFile();
 
-    /** @test */
-    public function it_logs_multiple_files_in_an_array()
-    {
-        $file = $this->getTempFile();
+    assertStringContainsString('test.md', $log);
+});
 
-        $request = $this->makeRequest('post', $this->uri, [], [], [
-            'files' => [
-                new UploadedFile($file, 'first.doc'),
-                new UploadedFile($file, 'second.doc'),
-            ],
-        ]);
+it('logs one file in an array', function () {
+    $file = $this->getTempFile();
 
-        $this->logger->logRequest($request);
+    $request = $this->makeRequest('post', $this->uri, [], [], [
+        'files' => [
+        new UploadedFile($file, 'test.md'),
+        ],
+    ]);
 
-        $log = $this->readLogFile();
+    $this->logger->logRequest($request);
 
-        $this->assertStringContainsString('first.doc', $log);
-        $this->assertStringContainsString('second.doc', $log);
-    }
+    $log = $this->readLogFile();
 
-    /** @test */
-    public function it_logs_using_the_default_log_level()
-    {
-        $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name',
-        ]);
+    assertStringContainsString('test.md', $log);
+});
 
-        $this->logger->logRequest($request);
+it('logs multiple files in an array', function () {
+    $file = $this->getTempFile();
 
-        $log = $this->readLogFile();
+    $request = $this->makeRequest('post', $this->uri, [], [], [
+        'files' => [
+        new UploadedFile($file, 'first.doc'),
+        new UploadedFile($file, 'second.doc'),
+        ],
+    ]);
 
-        $this->assertStringContainsString('testing.INFO', $log);
-        $this->assertStringContainsString('"name":"Name', $log);
-    }
+    $this->logger->logRequest($request);
 
-    /** @test */
-    public function it_logs_using_the_configured_log_level()
-    {
-        config(['http-logger.log_level' => 'debug']);
-        $request = $this->makeRequest('post', $this->uri, [
-            'name' => 'Name',
-        ]);
+    $log = $this->readLogFile();
 
-        $this->logger->logRequest($request);
+    assertStringContainsString('first.doc', $log);
+    assertStringContainsString('second.doc', $log);
+});
 
-        $log = $this->readLogFile();
+it('logs using the default log level', function () {
+    $request = $this->makeRequest('post', $this->uri, [
+        'name' => 'Name',
+    ]);
 
-        $this->assertStringContainsString('testing.DEBUG', $log);
-        $this->assertStringContainsString('"name":"Name', $log);
-    }
-}
+    $this->logger->logRequest($request);
+
+    $log = $this->readLogFile();
+
+    assertStringContainsString('testing.INFO', $log);
+    assertStringContainsString('"name":"Name', $log);
+});
+
+it('logs using the configured log level', function () {
+    config(['http-logger.log_level' => 'debug']);
+    $request = $this->makeRequest('post', $this->uri, [
+        'name' => 'Name',
+    ]);
+
+    $this->logger->logRequest($request);
+
+    $log = $this->readLogFile();
+
+    assertStringContainsString('testing.DEBUG', $log);
+    assertStringContainsString('"name":"Name', $log);
+});

@@ -1,14 +1,9 @@
 <?php
 
-namespace Spatie\HttpLogger\Test;
+use function PHPUnit\Framework\assertFileExists;
 
-class IntegrationTest extends TestCase
-{
-    /** @test */
-    public function it_logs_an_incoming_request_via_the_middleware()
-    {
-        $this->call('post', '/');
+it('logs an incoming request via the middleware', function () {
+    $this->call('post', '/');
 
-        $this->assertFileExists($this->getLogFile());
-    }
-}
+    assertFileExists($this->getLogFile());
+});
