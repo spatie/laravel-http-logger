@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.10.1 - 2023-01-24
+
+### What's Changed
+
+- Update .gitattributes by @angeljqv in https://github.com/spatie/laravel-http-logger/pull/54
+- Refactor tests to pest by @AyoobMH in https://github.com/spatie/laravel-http-logger/pull/55
+- Add PHP 8.2 Support by @patinthehat in https://github.com/spatie/laravel-http-logger/pull/56
+- Laravel 10.x Compatibility by @laravel-shift in https://github.com/spatie/laravel-http-logger/pull/57
+
+### New Contributors
+
+- @angeljqv made their first contribution in https://github.com/spatie/laravel-http-logger/pull/54
+- @AyoobMH made their first contribution in https://github.com/spatie/laravel-http-logger/pull/55
+- @patinthehat made their first contribution in https://github.com/spatie/laravel-http-logger/pull/56
+- @laravel-shift made their first contribution in https://github.com/spatie/laravel-http-logger/pull/57
+
+**Full Changelog**: https://github.com/spatie/laravel-http-logger/compare/1.10.0...1.10.1
+
 ## 1.10.0 - 2022-06-07
 
 ### What's Changed
