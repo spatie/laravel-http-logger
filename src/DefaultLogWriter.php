@@ -22,11 +22,18 @@ class DefaultLogWriter implements LogWriter
             ->map([$this, 'flatFiles'])
             ->flatten();
 
+        $headers = $request->headers->all();
+
+        // Remove any excluded headers from the headers array
+        foreach (config('http-logger.except_headers', []) as $header) {
+            unset($headers[$header]);
+        }
+
         return [
             'method' => strtoupper($request->getMethod()),
             'uri' => $request->getPathInfo(),
             'body' => $request->except(config('http-logger.except')),
-            'headers' => $request->headers->all(),
+            'headers' => $headers,
             'files' => $files,
         ];
     }

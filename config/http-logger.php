@@ -32,4 +32,11 @@ return [
         'password_confirmation',
     ],
 
+    /*
+     * Filter out header fields which will never be logged.
+     */
+    'except_headers' => [
+        'Authorization',
+    ],
+
 ];

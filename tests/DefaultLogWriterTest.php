@@ -53,6 +53,20 @@ it('will not log excluded fields', function () {
     assertStringNotContainsString('password_confirmation', $log);
 });
 
+it('logs headers except those in except_headers config', function () {
+    $request = $this->makeRequest('post', $this->uri, [
+        'name' => 'Name',
+    ]);
+
+    config(['http-logger.except_headers' => ['Authorization']]);
+    $this->logger->logRequest($request);
+
+    $log = $this->readLogFile();
+
+    assertStringContainsString('"name":"Name"', $log);
+    assertStringNotContainsString('Authorization', $log);
+});
+
 it('logs files', function () {
     $file = $this->getTempFile();
 
@@ -72,7 +86,7 @@ it('logs one file in an array', function () {
 
     $request = $this->makeRequest('post', $this->uri, [], [], [
         'files' => [
-        new UploadedFile($file, 'test.md'),
+            new UploadedFile($file, 'test.md'),
         ],
     ]);
 
@@ -88,8 +102,8 @@ it('logs multiple files in an array', function () {
 
     $request = $this->makeRequest('post', $this->uri, [], [], [
         'files' => [
-        new UploadedFile($file, 'first.doc'),
-        new UploadedFile($file, 'second.doc'),
+            new UploadedFile($file, 'first.doc'),
+            new UploadedFile($file, 'second.doc'),
         ],
     ]);
 
