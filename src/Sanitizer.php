@@ -25,7 +25,7 @@ class Sanitizer
             $normalizedKey = $this->normalize($key);
 
             if (in_array($normalizedKey, $keys)) {
-                $input[$key] = $this->mask;
+                $input[$key] = is_array($value) ? [$this->mask] : $this->mask;
 
                 continue;
             }

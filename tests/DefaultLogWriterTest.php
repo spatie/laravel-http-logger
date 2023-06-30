@@ -137,6 +137,6 @@ it('will sanitize sensitive headers', function () {
 
     $log = $this->readLogFile();
 
-    assertStringContainsString('"authorization":"****"', $log);
+    assertStringContainsString('"authorization":["****"]', $log);
     assertStringContainsString('"api-version":["2.4.12"]', $log);
 });
