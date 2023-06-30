@@ -143,6 +143,25 @@ public function logRequest(Request $request): void
 }
 ```
 
+#### Hide sensitive headers
+
+You can define headers that you want to sanitize before sending them to the log. 
+The most common example would be Authorization header. If you don't want to log jwt token, you can add that header to `http-logger.php` config file:
+
+```php
+// in config/http-logger.php
+
+return [
+    // ...
+    
+    'sanitize_headers' => [
+        'Authorization'
+    ],
+];
+```
+
+Output would be `Authorization: "****"` instead of `Authorization: "Bearer {token}"`
+
 ### Testing
 
 ``` bash
