@@ -68,6 +68,11 @@ return [
         'password',
         'password_confirmation',
     ],
+    
+    /*
+     * List of headers that will be sanitized. For example Authorization, Cookie, Set-Cookie...
+     */
+    'sanitize_headers' => [],
 ];
 ```
 

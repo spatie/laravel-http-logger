@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultLogWriter implements LogWriter
 {
+    protected $sanitizer;
+
     public function logRequest(Request $request)
     {
         $message = $this->formatMessage($this->getMessage($request));
@@ -26,7 +28,7 @@ class DefaultLogWriter implements LogWriter
             'method' => strtoupper($request->getMethod()),
             'uri' => $request->getPathInfo(),
             'body' => $request->except(config('http-logger.except')),
-            'headers' => $request->headers->all(),
+            'headers' => $this->getSanitizer()->clean($request->headers->all(), config('http-logger.sanitize_headers')),
             'files' => $files,
         ];
     }
@@ -50,5 +52,14 @@ class DefaultLogWriter implements LogWriter
         }
 
         return (string) $file;
+    }
+
+    protected function getSanitizer()
+    {
+        if (!$this->sanitizer instanceof Sanitizer) {
+            $this->sanitizer = new Sanitizer();
+        }
+
+        return $this->sanitizer;
     }
 }
