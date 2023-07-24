@@ -68,6 +68,11 @@ return [
         'password',
         'password_confirmation',
     ],
+    
+    /*
+     * List of headers that will be sanitized. For example Authorization, Cookie, Set-Cookie...
+     */
+    'sanitize_headers' => [],
 ];
 ```
 
@@ -137,6 +142,25 @@ public function logRequest(Request $request): void
     Log::channel(config('http-logger.log_channel'))->info($message);
 }
 ```
+
+#### Hide sensitive headers
+
+You can define headers that you want to sanitize before sending them to the log. 
+The most common example would be Authorization header. If you don't want to log jwt token, you can add that header to `http-logger.php` config file:
+
+```php
+// in config/http-logger.php
+
+return [
+    // ...
+    
+    'sanitize_headers' => [
+        'Authorization'
+    ],
+];
+```
+
+Output would be `Authorization: "****"` instead of `Authorization: "Bearer {token}"`
 
 ### Testing
 

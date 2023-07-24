@@ -127,3 +127,16 @@ it('logs using the configured log level', function () {
     assertStringContainsString('testing.DEBUG', $log);
     assertStringContainsString('"name":"Name', $log);
 });
+
+it('will sanitize sensitive headers', function () {
+    config(['http-logger.sanitize_headers' => ['Authorization']]);
+
+    $request = $this->makeRequest('post', $this->uri, [], [], [], ['HTTP_Authorization' => 'Bearer {token}', 'HTTP_Api-Version' => '2.4.12']);
+
+    $this->logger->logRequest($request);
+
+    $log = $this->readLogFile();
+
+    assertStringContainsString('"authorization":["****"]', $log);
+    assertStringContainsString('"api-version":["2.4.12"]', $log);
+});
