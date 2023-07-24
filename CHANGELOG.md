@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.10.2 - 2023-07-24
+
+### What's Changed
+
+- Add option to sanitize sensitive headers by @stfndamjanovic in https://github.com/spatie/laravel-http-logger/pull/60
+
+### New Contributors
+
+- @stfndamjanovic made their first contribution in https://github.com/spatie/laravel-http-logger/pull/60
+
+**Full Changelog**: https://github.com/spatie/laravel-http-logger/compare/1.10.1...1.10.2
+
 ## 1.10.1 - 2023-01-24
 
 ### What's Changed
