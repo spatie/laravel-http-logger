@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-http-logger",
-    "description": "A Laravel package to log HTTP requests",
+    "description": "A Laravel package to log HTTP requests and responses",
     "keywords": [
         "spatie",
         "laravel-http-logger"

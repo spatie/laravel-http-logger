@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
+use Illuminate\Http\Response;
 class DefaultLogWriter implements LogWriter
 {
     protected $sanitizer;
@@ -33,6 +33,21 @@ class DefaultLogWriter implements LogWriter
         ];
     }
 
+    public function logResponse(Response $response)
+    {
+        $message = $this->formatMessageResponse($this->getMessageResponse($response));
+        Log::channel(config('http-logger.log_channel'))->log(config('http-logger.log_level', 'info'), $message);
+    }
+
+    public function getMessageResponse(Response $response)
+    {
+        return [
+            'body' => $response->getContent(),
+            'headers' => $this->getSanitizer()->clean($response->headers->all(), config('http-logger.sanitize_headers')),
+            'code' => $response->status(),
+        ];
+    }
+
     protected function formatMessage(array $message)
     {
         $bodyAsJson = json_encode($message['body']);
@@ -40,6 +55,13 @@ class DefaultLogWriter implements LogWriter
         $files = $message['files']->implode(',');
 
         return "{$message['method']} {$message['uri']} - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Files: " . $files;
+    }
+    protected function formatMessageResponse(array $message)
+    {
+        $bodyAsJson = json_encode($message['body']);
+        $headersAsJson = json_encode($message['headers']);
+
+        return "{Body: {$bodyAsJson} - Headers: {$headersAsJson} - Code: " . $message["code"];
     }
 
     public function flatFiles($file)

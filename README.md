@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-http-logger.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-http-logger)
 
 This package adds a middleware which can log incoming requests to the default log. 
-If anything goes wrong during a user's request, you'll still be able to access the original request data sent by that user.
+If anything goes wrong during a user's request and response, you'll still be able to access the original request data sent by that user and response.
 
 This log acts as an extra safety net for critical user submissions, such as forms that generate leads.
 
@@ -37,24 +37,24 @@ This is the contents of the published config file:
 return [
 
     /*
-     * The log profile which determines whether a request should be logged.
+     * The log profile which determines whether a request and response should be logged.
      * It should implement `LogProfile`.
      */
     'log_profile' => \Spatie\HttpLogger\LogNonGetRequests::class,
 
     /*
-     * The log writer used to write the request to a log.
+     * The log writer used to write the request and response to a log.
      * It should implement `LogWriter`.
      */
     'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
     
     /*
-     * The log channel used to write the request.
+     * The log channel used to write the request and response.
      */
     'log_channel' => env('LOG_CHANNEL', 'stack'),
     
     /*
-     * The log level used to log the request.
+     * The log level used to log the request and response.
      */
     'log_level' => 'info',
     
@@ -97,19 +97,22 @@ Route::post('/submit-form', function () {
 
 ### Logging
 
-Two classes are used to handle the logging of incoming requests: 
-a `LogProfile` class will determine whether the request should be logged,
-and `LogWriter` class will write the request to a log. 
+Two classes are used to handle the logging of incoming requests and responses: 
+a `LogProfile` class will determine whether the request and response should be logged,
+and `LogWriter` class will write the request and response to a log. 
 
 A default log implementation is added within this package. 
-It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests 
-and it will write to the default Laravel logger.
+It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests and responses default is disabled
+and it will write to the default Laravel logger and.
 
 You're free to implement your own log profile and/or log writer classes, 
 and configure it in `config/http-logger.php`.
 
+##### Requests
+
 A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
 This interface requires you to implement `shouldLogRequest`.
+or 
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\LogNonGetRequests`
@@ -119,7 +122,6 @@ public function shouldLogRequest(Request $request): bool
    return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
 }
 ```
-
 A custom log writer must implement `\Spatie\HttpLogger\LogWriter`. 
 This interface requires you to implement `logRequest`.
 
@@ -139,6 +141,37 @@ public function logRequest(Request $request): void
     Log::channel(config('http-logger.log_channel'))->info($message);
 }
 ```
+
+
+##### Responses
+
+A custom log profile for responses must implement `\Spatie\HttpLogger\LogProfile`. 
+This interface requires you to implement `shouldLogResponse`.
+
+```php
+// Example implementation from `\Spatie\HttpLogger\LogNonGetRequests`
+
+public function shouldLogResponse(Response $response): bool
+{
+   return false;
+}
+```
+
+A custom log writer must implement `\Spatie\HttpLogger\LogWriter`. 
+This interface requires you to implement `logResponse`.
+
+```php
+// Example implementation from `\Spatie\HttpLogger\DefaultLogWriter`
+    public function logResponse(Response $response)
+    {
+        Log::channel(config('http-logger.log_channel'))->log(config('http-logger.log_level', 'info'),  [
+            'body' => $response->getContent(),
+            'headers' => $this->getSanitizer()->clean($response->headers->all(), config('http-logger.sanitize_headers')),
+            'code' => $response->status(),
+        ]);
+    }
+```
+
 
 #### Hide sensitive headers
 
