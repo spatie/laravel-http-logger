@@ -58,7 +58,7 @@ class DefaultLogWriter implements LogWriter
     }
     protected function formatMessageResponse(array $message)
     {
-        $bodyAsJson = json_encode($message['body']);
+        $bodyAsJson = $message['body'];
         $headersAsJson = json_encode($message['headers']);
 
         return "{Response - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Code: " . $message["code"];
