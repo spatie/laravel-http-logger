@@ -14,7 +14,17 @@ class LogNonGetRequests implements LogProfile
 
     public function shouldLogResponse(Response $response): bool
     {
-        return false;
+        try {
+            $content = $response->getContent();
+
+
+            if ($content) {
+                json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+            }
+           return true;
+        } catch (\JsonException $exception) {
+           return false;
+        }
     }
 
 }

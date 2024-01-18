@@ -61,7 +61,7 @@ class DefaultLogWriter implements LogWriter
         $bodyAsJson = json_encode($message['body']);
         $headersAsJson = json_encode($message['headers']);
 
-        return "{Body: {$bodyAsJson} - Headers: {$headersAsJson} - Code: " . $message["code"];
+        return "{Response - Body: {$bodyAsJson} - Headers: {$headersAsJson} - Code: " . $message["code"];
     }
 
     public function flatFiles($file)

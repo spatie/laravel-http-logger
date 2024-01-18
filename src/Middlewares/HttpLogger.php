@@ -21,6 +21,10 @@ class HttpLogger
 
     public function handle(Request $request, Closure $next)
     {
+        if ($this->logProfile->shouldLogRequest($request)) {
+            $this->logWriter->logRequest($request);
+        }
+
         return $next($request);
     }
 
@@ -33,10 +37,6 @@ class HttpLogger
      */
     public function terminate($request, $response): void
     {
-        if ($this->logProfile->shouldLogRequest($request)) {
-            $this->logWriter->logRequest($request);
-        }
-
         if ($this->logProfile->shouldLogResponse($response)) {
             $this->logWriter->logResponse($response);
         }

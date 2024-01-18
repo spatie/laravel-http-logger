@@ -4,7 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/spatie/laravel-http-logger/run-tests?label=tests)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-http-logger.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-http-logger)
 
-This package adds a middleware which can log incoming requests to the default log. 
+This package adds a middleware which can log incoming requests to the default log.
 If anything goes wrong during a user's request and response, you'll still be able to access the original request data sent by that user and response.
 
 This log acts as an extra safety net for critical user submissions, such as forms that generate leads.
@@ -28,7 +28,7 @@ composer require spatie/laravel-http-logger
 Optionally you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\HttpLogger\HttpLoggerServiceProvider" --tag="config" 
+php artisan vendor:publish --provider="Spatie\HttpLogger\HttpLoggerServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -47,17 +47,17 @@ return [
      * It should implement `LogWriter`.
      */
     'log_writer' => \Spatie\HttpLogger\DefaultLogWriter::class,
-    
+
     /*
      * The log channel used to write the request and response.
      */
     'log_channel' => env('LOG_CHANNEL', 'stack'),
-    
+
     /*
      * The log level used to log the request and response.
      */
     'log_level' => 'info',
-    
+
     /*
      * Filter out body fields which will never be logged.
      */
@@ -65,7 +65,7 @@ return [
         'password',
         'password_confirmation',
     ],
-    
+
     /*
      * List of headers that will be sanitized. For example Authorization, Cookie, Set-Cookie...
      */
@@ -82,7 +82,7 @@ This packages provides a middleware which can be added as a global middleware or
 
 protected $middleware = [
     // ...
-    
+
     \Spatie\HttpLogger\Middlewares\HttpLogger::class
 ];
 ```
@@ -97,22 +97,21 @@ Route::post('/submit-form', function () {
 
 ### Logging
 
-Two classes are used to handle the logging of incoming requests and responses: 
+Two classes are used to handle the logging of incoming requests and responses:
 a `LogProfile` class will determine whether the request and response should be logged,
-and `LogWriter` class will write the request and response to a log. 
+and `LogWriter` class will write the request and response to a log.
 
-A default log implementation is added within this package. 
-It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests and responses default is disabled
-and it will write to the default Laravel logger and.
+A default log implementation is added within this package.
+It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests and it will write to the default Laravel logger and.
 
-You're free to implement your own log profile and/or log writer classes, 
+You're free to implement your own log profile and/or log writer classes,
 and configure it in `config/http-logger.php`.
 
 ##### Requests
 
-A custom log profile must implement `\Spatie\HttpLogger\LogProfile`. 
+A custom log profile must implement `\Spatie\HttpLogger\LogProfile`.
 This interface requires you to implement `shouldLogRequest`.
-or 
+or
 
 ```php
 // Example implementation from `\Spatie\HttpLogger\LogNonGetRequests`
@@ -122,7 +121,8 @@ public function shouldLogRequest(Request $request): bool
    return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
 }
 ```
-A custom log writer must implement `\Spatie\HttpLogger\LogWriter`. 
+
+A custom log writer must implement `\Spatie\HttpLogger\LogWriter`.
 This interface requires you to implement `logRequest`.
 
 ```php
@@ -131,9 +131,9 @@ This interface requires you to implement `logRequest`.
 public function logRequest(Request $request): void
 {
     $method = strtoupper($request->getMethod());
-    
+
     $uri = $request->getPathInfo();
-    
+
     $bodyAsJson = json_encode($request->except(config('http-logger.except')));
 
     $message = "{$method} {$uri} - {$bodyAsJson}";
@@ -142,10 +142,9 @@ public function logRequest(Request $request): void
 }
 ```
 
-
 ##### Responses
 
-A custom log profile for responses must implement `\Spatie\HttpLogger\LogProfile`. 
+A custom log profile for responses must implement `\Spatie\HttpLogger\LogProfile`.
 This interface requires you to implement `shouldLogResponse`.
 
 ```php
@@ -153,11 +152,19 @@ This interface requires you to implement `shouldLogResponse`.
 
 public function shouldLogResponse(Response $response): bool
 {
-   return false;
+        try {
+            $content = $response->getContent();
+            if ($content) {
+                json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+            }
+            return true;
+        } catch (\JsonException $exception) {
+           return false;
+        }
 }
 ```
 
-A custom log writer must implement `\Spatie\HttpLogger\LogWriter`. 
+A custom log writer must implement `\Spatie\HttpLogger\LogWriter`.
 This interface requires you to implement `logResponse`.
 
 ```php
@@ -172,10 +179,9 @@ This interface requires you to implement `logResponse`.
     }
 ```
 
-
 #### Hide sensitive headers
 
-You can define headers that you want to sanitize before sending them to the log. 
+You can define headers that you want to sanitize before sending them to the log.
 The most common example would be Authorization header. If you don't want to log jwt token, you can add that header to `http-logger.php` config file:
 
 ```php
@@ -183,7 +189,7 @@ The most common example would be Authorization header. If you don't want to log 
 
 return [
     // ...
-    
+
     'sanitize_headers' => [
         'Authorization'
     ],
@@ -194,7 +200,7 @@ Output would be `Authorization: "****"` instead of `Authorization: "Bearer {toke
 
 ### Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -212,8 +218,8 @@ If you've found a bug regarding security please mail [security@spatie.be](mailto
 
 ## Credits
 
-- [Brent Roose](https://github.com/brendt)
-- [All Contributors](../../contributors)
+-   [Brent Roose](https://github.com/brendt)
+-   [All Contributors](../../contributors)
 
 ## License
 
