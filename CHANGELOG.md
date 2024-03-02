@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.11.0 - 2024-03-02
+
+### What's Changed
+
+* Laravel 11.x Compatibility by @laravel-shift in https://github.com/spatie/laravel-http-logger/pull/62
+
+**Full Changelog**: https://github.com/spatie/laravel-http-logger/compare/1.10.2...1.11.0
+
 ## 1.10.2 - 2023-07-24
 
 ### What's Changed
