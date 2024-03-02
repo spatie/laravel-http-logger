@@ -1,7 +1,7 @@
 # Log HTTP requests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-http-logger.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-http-logger)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/spatie/laravel-http-logger/run-tests?label=tests)
+[![run-tests](https://github.com/spatie/laravel-http-logger/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/laravel-http-logger/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-http-logger.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-http-logger)
 
 This package adds a middleware which can log incoming requests to the default log. 
