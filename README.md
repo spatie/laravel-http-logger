@@ -78,7 +78,7 @@ return [
 This packages provides a middleware which can be added as a global middleware or as a single route.
 
 
-* Laravel >= 11: *
+**Laravel >= 11:**
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
@@ -86,7 +86,7 @@ This packages provides a middleware which can be added as a global middleware or
 })
 ```
 
-* Laravel <= 10: *
+**Laravel <= 10:**
 
 ```php
 // in `app/Http/Kernel.php`
