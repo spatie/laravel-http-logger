@@ -77,6 +77,17 @@ return [
 
 This packages provides a middleware which can be added as a global middleware or as a single route.
 
+
+* Laravel >= 11: *
+
+```php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->append(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
+})
+```
+
+* Laravel <= 10: *
+
 ```php
 // in `app/Http/Kernel.php`
 
