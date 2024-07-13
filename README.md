@@ -37,6 +37,11 @@ This is the contents of the published config file:
 return [
 
     /*
+     * Determine if the http-logger middleware should be enabled.
+     */
+    'enabled' => env('HTTP_LOGGER_ENABLED', true),
+
+    /*
      * The log profile which determines whether a request should be logged.
      * It should implement `LogProfile`.
      */
@@ -115,6 +120,7 @@ and `LogWriter` class will write the request to a log.
 A default log implementation is added within this package. 
 It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests 
 and it will write to the default Laravel logger.
+Logging is enabled by default but can be toggled on or off via the `HTTP_LOGGER_ENABLED` variable in the `.env` file.
 
 You're free to implement your own log profile and/or log writer classes, 
 and configure it in `config/http-logger.php`.
