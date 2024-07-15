@@ -21,3 +21,13 @@ it('doesnt log get head options trace', function () {
         $this->assertFalse($this->logProfile->shouldLogRequest($request), "{$method} should not be logged.");
     }
 });
+
+it('doesnt log when disabled', function () {
+    config(['http-logger.enabled' => false]);
+
+    foreach (['post', 'put', 'patch', 'delete'] as $method) {
+        $request = $this->makeRequest($method, $this->uri);
+
+        $this->assertFalse($this->logProfile->shouldLogRequest($request), "{$method} should not be logged.");
+    }
+});
