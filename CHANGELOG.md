@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.11.1 - 2025-02-17
+
+### What's Changed
+
+* Add ability to enable/disable HTTP Logging via .env variable by @marcell-ferenc in https://github.com/spatie/laravel-http-logger/pull/64
+* Laravel 12.x Compatibility by @laravel-shift in https://github.com/spatie/laravel-http-logger/pull/66
+
+### New Contributors
+
+* @marcell-ferenc made their first contribution in https://github.com/spatie/laravel-http-logger/pull/64
+
+**Full Changelog**: https://github.com/spatie/laravel-http-logger/compare/1.11.0...1.11.1
+
 ## 1.11.0 - 2024-03-02
 
 ### What's Changed
