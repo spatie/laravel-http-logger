@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-http-logger` will be documented in this file.
 
+## 1.11.2 - 2026-02-21
+
+Add Laravel 13 support
+
 ## 1.11.1 - 2025-02-17
 
 ### What's Changed
