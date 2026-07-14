@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('logs request method and uri', function () {
-    foreach (['post', 'put', 'patch', 'delete'] as $method) {
+    foreach (['post', 'put', 'patch', 'delete', 'query'] as $method) {
         $request = $this->makeRequest($method, $this->uri);
 
         $this->logger->logRequest($request);
@@ -24,6 +24,19 @@ it('logs request method and uri', function () {
     assertStringContainsString("PUT {$this->uri}", $log);
     assertStringContainsString("PATCH {$this->uri}", $log);
     assertStringContainsString("DELETE {$this->uri}", $log);
+    assertStringContainsString("QUERY {$this->uri}", $log);
+});
+
+it('will log the query body', function () {
+    $request = $this->makeRequest('query', $this->uri, [
+        'filter' => 'active',
+    ]);
+
+    $this->logger->logRequest($request);
+
+    $log = $this->readLogFile();
+
+    assertStringContainsString('"filter":"active"', $log);
 });
 
 it('will log the body', function () {

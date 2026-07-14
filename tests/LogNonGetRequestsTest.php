@@ -6,8 +6,8 @@ beforeEach(function () {
     $this->logProfile = new LogNonGetRequests();
 });
 
-it('logs post patch put delete', function () {
-    foreach (['post', 'put', 'patch', 'delete'] as $method) {
+it('logs post patch put delete query', function () {
+    foreach (['post', 'put', 'patch', 'delete', 'query'] as $method) {
         $request = $this->makeRequest($method, $this->uri);
 
         $this->assertTrue($this->logProfile->shouldLogRequest($request), "{$method} should be logged.");
@@ -25,7 +25,7 @@ it('doesnt log get head options trace', function () {
 it('doesnt log when disabled', function () {
     config(['http-logger.enabled' => false]);
 
-    foreach (['post', 'put', 'patch', 'delete'] as $method) {
+    foreach (['post', 'put', 'patch', 'delete', 'query'] as $method) {
         $request = $this->makeRequest($method, $this->uri);
 
         $this->assertFalse($this->logProfile->shouldLogRequest($request), "{$method} should not be logged.");

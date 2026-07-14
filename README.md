@@ -118,7 +118,7 @@ a `LogProfile` class will determine whether the request should be logged,
 and `LogWriter` class will write the request to a log. 
 
 A default log implementation is added within this package. 
-It will only log `POST`, `PUT`, `PATCH`, and `DELETE` requests 
+It will only log `POST`, `PUT`, `PATCH`, `DELETE`, and `QUERY` requests 
 and it will write to the default Laravel logger.
 Logging is enabled by default but can be toggled on or off via the `HTTP_LOGGER_ENABLED` variable in the `.env` file.
 
@@ -133,7 +133,7 @@ This interface requires you to implement `shouldLogRequest`.
 
 public function shouldLogRequest(Request $request): bool
 {
-   return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete']);
+   return in_array(strtolower($request->method()), ['post', 'put', 'patch', 'delete', 'query']);
 }
 ```
 
